@@ -3,8 +3,9 @@
 `psl` is a `node.js` domain name parser based on the
 [Public Suffix List](https://publicsuffix.org/).
 
-This implementation is tested against
-[Mozilla's test data](http://mxr.mozilla.org/mozilla-central/source/netwerk/test/unit/data/test_psl.txt?raw=1).
+This implementation is tested against the
+[test data hosted by Mozilla](http://mxr.mozilla.org/mozilla-central/source/netwerk/test/unit/data/test_psl.txt?raw=1)
+and kindly provided by [Comodo](https://www.comodo.com/).
 
 ## What is the Public Suffix List?
 
@@ -149,6 +150,8 @@ Feel free to fork if you see possible improvements!
 ## Acknowledgements
 
 * Mozilla Foundation's [Public Suffix List](https://publicsuffix.org/)
+* Thanks to Rob Stradling of [Comodo](https://www.comodo.com/) for providing
+  test data.
 * Inspired by [weppos/publicsuffix-ruby](https://github.com/weppos/publicsuffix-ruby)
 
 ## License
