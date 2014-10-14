@@ -1,4 +1,5 @@
 data/build.js
 data/effective_tld_names.dat
 dist/
+examples/
 test/
