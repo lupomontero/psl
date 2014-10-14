@@ -10,9 +10,8 @@ var JSONStream = require('JSONStream');
 //
 // Paths to files.
 //
-var datadir = path.join(__dirname, 'data');
-var src = path.join(datadir, 'effective_tld_names.dat');
-var dest = path.join(datadir, 'rules.json');
+var src = path.join(__dirname, 'effective_tld_names.dat');
+var dest = path.join(__dirname, 'rules.json');
 
 
 //
