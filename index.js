@@ -1,26 +1,16 @@
-var fs = require('fs');
-var path = require('path');
 var punycode = require('punycode');
 
 //
 // Read rules from file.
 //
-var filepath = path.join(__dirname, 'data', 'effective_tld_names.dat');
-var file = fs.readFileSync(filepath, 'utf-8');
-var rules = file.split('\n').reduce(function (memo, line) {
-  line = line.trim();
-  if ((line.charAt(0) === '/' && line.charAt(1) === '/') || !line) {
-    return memo;
-  }
-  // Only read up to first whitespace char.
-  line = line.split(' ')[0];
-  memo.push({
-    suffix: line.replace(/^(\*\.|\!)/, ''),
-    wildcard: line.charAt(0) === '*',
-    exception: line.charAt(0) === '!'
-  });
-  return memo;
-}, []);
+var rules = require('./data/rules.json').map(function (rule) {
+  return {
+    rule: rule,
+    suffix: rule.replace(/^(\*\.|\!)/, ''),
+    wildcard: rule.charAt(0) === '*',
+    exception: rule.charAt(0) === '!'
+  };
+});
 
 
 //

@@ -4,7 +4,7 @@
   "description": "Domain name parser based on the Public Suffix List",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/lab/bin/lab test -v"
+    "test": "./node_modules/.bin/tape test/test-psl.js"
   },
   "keywords": [
     "publicsuffix",
@@ -13,6 +13,24 @@
   "author": "Lupo Montero",
   "license": "MIT",
   "devDependencies": {
-    "lab": "^4.6.2"
+    "JSONStream": "^0.9.0",
+    "event-stream": "^3.1.7",
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^3.0.1",
+    "grunt-contrib-jshint": "^0.10.0",
+    "tape": "^3.0.0"
+  },
+  "testling": {
+    "files": "test/test-psl.js",
+    "browsers": [
+      "ie/6..latest",
+      "chrome/22..latest",
+      "firefox/16..latest",
+      "safari/latest",
+      "opera/11.0..latest",
+      "iphone/6",
+      "ipad/6",
+      "android-browser/latest"
+    ]
   }
 }

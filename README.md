@@ -141,7 +141,7 @@ psl.isValid('x.yz'); // false
 
 ## Tests
 
-Test are run using [`lab`](https://github.com/hapijs/lab).
+Test are run using [`tape`](https://www.npmjs.org/package/tape).
 
 ```sh
 npm test
