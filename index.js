@@ -25,8 +25,12 @@ function endsWith(str, suffix) {
 // Find rule for a given domain.
 //
 function find(domain) {
+  var punyDomain = punycode.toASCII(domain);
   return rules.reduce(function (memo, rule) {
-    if (!endsWith(punycode.toUnicode(domain), rule.suffix)) { return memo; }
+    var punySuffix = punycode.toASCII(rule.suffix);
+    if (!endsWith(punyDomain, '.' + punySuffix) && punyDomain !== punySuffix) {
+      return memo;
+    }
     if (memo && memo.suffix && memo.suffix.length > rule.suffix.length) {
       return memo;
     }
@@ -67,10 +71,14 @@ exports.parse = function (domain) {
   // Force domain to lowercase.
   domain = domain.toLowerCase();
 
-  var isPunycode = /xn--/.test(domain);
   var domainParts = domain.split('.').filter(function (part) {
     return part !== '';
   });
+
+  // Non-Internet TLD
+  if (domainParts[domainParts.length - 1] === 'local') { return parsed; }
+
+  var isPunycode = /xn--/.test(domain);
 
   var rule = find(domain);
 
