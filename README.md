@@ -2,13 +2,13 @@
 
 [![Build Status](https://travis-ci.org/wrangr/psl.svg?branch=master)](https://travis-ci.org/wrangr/psl)
 
-
 `psl` is a `JavaScript` domain name parser based on the
 [Public Suffix List](https://publicsuffix.org/).
 
 This implementation is tested against the
 [test data hosted by Mozilla](http://mxr.mozilla.org/mozilla-central/source/netwerk/test/unit/data/test_psl.txt?raw=1)
 and kindly provided by [Comodo](https://www.comodo.com/).
+
 
 ## What is the Public Suffix List?
 
@@ -25,6 +25,7 @@ Public Suffix List is a list of all known public suffixes.
 
 Source: http://publicsuffix.org
 
+
 ## Installation
 
 ### Node.js
@@ -32,8 +33,19 @@ Source: http://publicsuffix.org
 ```sh
 npm install --save psl
 ```
+
 ### Browser
 
+Download [psl.min.js](https://raw.githubusercontent.com/wrangr/psl/master/dist/psl.min.js)
+and include it in a script tag.
+
+```html
+<script src="psl.min.js"></script>
+```
+
+This script is browserified and wrapped in a [umd](https://github.com/umdjs/umd)
+wrapper so you should be able to use it standalone or together with a module
+loader.
 
 ## API
 
@@ -144,15 +156,27 @@ psl.isValid('www.google.com'); // true
 psl.isValid('x.yz'); // false
 ```
 
-## Tests
 
-Test are run using [`tape`](https://www.npmjs.org/package/tape).
+## Testing and Building
+
+Test are written using [`tape`](https://www.npmjs.org/package/tape) and can be
+run in three different environments: `node`, `phantomjs` and local browsers.
 
 ```sh
+# This will run the `jshint`, `test-node` and `test-phantom` grunt tasks.
 npm test
+
+# Individual test environments
+grunt test-node     # Run tests in node only.
+grunt test-phantom  # Run tests in phantomjs only.
+grunt test-local    # Run tests in local browser.
+
+# Build data (parse raw list) and create dist files
+grunt build
 ```
 
 Feel free to fork if you see possible improvements!
+
 
 ## Acknowledgements
 
@@ -160,6 +184,7 @@ Feel free to fork if you see possible improvements!
 * Thanks to Rob Stradling of [Comodo](https://www.comodo.com/) for providing
   test data.
 * Inspired by [weppos/publicsuffix-ruby](https://github.com/weppos/publicsuffix-ruby)
+
 
 ## License
 

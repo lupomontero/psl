@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+<script src="../dist/psl.min.js"></script>
+<script>
+// Parse domain  
+var parsed = psl.parse('docs.wrangr.com');
+console.log(parsed);
+
+// Get public suffix
+console.log(psl.get('google.com')); // 'google.com'
+console.log(psl.get('www.google.com')); // 'google.com'
+console.log(psl.get('1.www.google.com')); // 'google.com'
+console.log(psl.get('1.www.google.co.uk')); // 'google.co.uk'
+
+// Check if domain belongs to a known public suffix
+console.log(psl.isValid('1.www.google.co.uk')); // true
+console.log(psl.isValid('co.uk')); // false
+console.log(psl.isValid('x.yz')); // false
+console.log(psl.isValid('example.example')); // false
+</script>
+</body>
+</html>
