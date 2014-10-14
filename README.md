@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/wrangr/psl.svg?branch=master)](https://travis-ci.org/wrangr/psl)
 
-[![Testling Status](https://ci.testling.com/wrangr/psl.png)](https://ci.testling.com/wrangr/psl)
+[![Browser Support](https://ci.testling.com/wrangr/psl.png)](https://ci.testling.com/wrangr/psl)
 
 
 `psl` is a `node.js` domain name parser based on the
