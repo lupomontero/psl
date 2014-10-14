@@ -33,7 +33,10 @@ module.exports = function (grunt) {
       dist: {
         src: [ 'index.js' ],
         dest: 'dist/<%= pkg.name %>.js',
-        options: {}
+      },
+      test: {
+        src: [ 'test/test-psl.js' ],
+        dest: 'test/bundle.js'
       }
     },
 
@@ -61,6 +64,12 @@ module.exports = function (grunt) {
       }
     },
 
+    clean: {
+      data: [ 'data/rules.json' ],
+      dist: [ 'dist' ],
+      test: [ 'test/bundle.js' ]
+    },
+
     watch: {
       js: {
         files: [ '<%= jshint.files %>' ],
@@ -75,14 +84,21 @@ module.exports = function (grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-shell');
 
-  grunt.registerTask('default', [ 'test' ]);
+  grunt.registerTask('default', [ 'build', 'test' ]);
   grunt.registerTask('test', [ 'jshint', 'shell:tape' ]);
-  grunt.registerTask('build', [ 'shell:data', 'browserify', 'uglify', 'compress' ]);
+  grunt.registerTask('build', [
+    'clean',
+    'shell:data',
+    'browserify',
+    'uglify',
+    'compress'
+  ]);
 
 };
