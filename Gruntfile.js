@@ -17,20 +17,19 @@ module.exports = function (grunt) {
         'index.js',
         'build/build.js',
         'test/**/*.js'
-      ],
-      options: {
-        ignores: [
-          'test/bundle.js'
-        ]
-      }
+      ]
     },
 
     shell: {
+      'test-local': {
+        command: bin.zuul + ' --local --ui tape -- ./test/test-psl.js',
+        options: { stdout: true, stderr: true }
+      },
       'test-node': {
         command: bin.browserify + ' -t coverify test/test-psl.js --bare | node | ' + bin.coverify,
         options: { stdout: true, stderr: true }
       },
-      'test-browser': {
+      'test-phantom': {
         command: bin.zuul + ' --phantom --ui tape -- ./test/test-psl.js',
         options: { stdout: true, stderr: true }
       },
@@ -51,15 +50,6 @@ module.exports = function (grunt) {
         options: {
           browserifyOptions: {
             standalone: 'psl'
-          }
-        }
-      },
-      test: {
-        src: [ 'test/test-psl.js' ],
-        dest: 'test/bundle.js',
-        options: {
-          browserifyOptions: {
-            debug: true
           }
         }
       }
@@ -96,7 +86,6 @@ module.exports = function (grunt) {
     clean: {
       data: [ 'data/rules.json' ],
       dist: [ 'dist' ],
-      test: [ 'test/bundle.js' ]
     },
 
     watch: {
@@ -121,7 +110,12 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-shell');
 
   grunt.registerTask('default', [ 'build', 'test' ]);
-  grunt.registerTask('test', [ 'jshint', 'shell:test-node', 'shell:test-browser' ]);
+
+  grunt.registerTask('test', [ 'jshint', 'test-node', 'test-phantom' ]);
+  grunt.registerTask('test-node', [ 'shell:test-node' ]);
+  grunt.registerTask('test-phantom', [ 'shell:test-phantom' ]);
+  grunt.registerTask('test-local', [ 'shell:test-local' ]);
+
   grunt.registerTask('build', [
     'clean',
     'shell:data',

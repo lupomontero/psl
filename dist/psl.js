@@ -155,7 +155,7 @@ exports.get = function (domain) {
 exports.isValid = function (domain) {
   var rule = find(domain);
   var parsed = exports.parse(domain);
-  return parsed.domain && parsed.listed;
+  return Boolean(parsed.domain && parsed.listed);
 };
 
 
