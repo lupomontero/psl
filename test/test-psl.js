@@ -32,57 +32,45 @@ test('psl.parse should parse domain without subdomains', function (t) {
   t.equal(parsed.subdomain, null);
 });
 
-/*
-it('psl.parse should parse domain with subdomains', function (done) {
+test('psl.parse should parse domain with subdomains', function (t) {
   var parsed = psl.parse('www.google.com');
-  expect(parsed.tld).to.equal('com');
-  expect(parsed.sld).to.equal('google');
-  expect(parsed.trd).to.equal('www');
-  expect(parsed.domain).to.equal('google.com');
-  expect(parsed.subdomain).to.equal('www.google.com');
-  done();
+  t.plan(5);
+  t.equal(parsed.tld, 'com');
+  t.equal(parsed.sld, 'google');
+  t.equal(parsed.trd, 'www');
+  t.equal(parsed.domain, 'google.com');
+  t.equal(parsed.subdomain, 'www.google.com');
 });
 
-it('psl.parse should parse FQDN', function (done) {
+test('psl.parse should parse FQDN', function (t) {
   var parsed = psl.parse('www.google.com.');
-  expect(parsed.tld).to.equal('com');
-  expect(parsed.sld).to.equal('google');
-  expect(parsed.trd).to.equal('www');
-  expect(parsed.domain).to.equal('google.com');
-  expect(parsed.subdomain).to.equal('www.google.com');
-  done();
+  t.plan(5);
+  t.equal(parsed.tld, 'com');
+  t.equal(parsed.sld, 'google');
+  t.equal(parsed.trd, 'www');
+  t.equal(parsed.domain, 'google.com');
+  t.equal(parsed.subdomain, 'www.google.com');
 });
-*/
 
-/*
-describe('psl.isValid', function () {
+[
+  { value: 'google.com', expected: true },
+  { value: 'www.google.com', expected: true },
+  { value: 'x.yz', expected: false }
+].forEach(function (item) {
 
-  [
-    { value: 'google.com', expected: true },
-    { value: 'www.google.com', expected: true },
-    { value: 'x.yz', expected: false }
-  ].forEach(function (item) {
-
-    it('should return ' + item.expected + ' for ' + item.value, function (done) {
-      expect(psl.isValid(item.value)).to.equal(item.expected);
-      done();
-    });
-
+  test('ps.isValid(' + item.value + ') should return ' + item.expected, function (t) {
+    t.equal(psl.isValid(item.value), item.expected);
+    t.end();
   });
 
 });
 
-describe('psl.get (based on Mozilla\'s test data)', function () {
+require('./mozilla-data').forEach(function (item) {
 
-  require('./mozilla-data').forEach(function (item) {
-
-    it('should return ' + item.expected + ' for ' + item.value, function (done) {
-      expect(psl.get(item.value)).to.equal(item.expected);
-      done();
-    });
-
+  test('psl.get(' + item.value + ') should return ' + item.expected, function (t) {
+    t.equal(psl.get(item.value), item.expected);
+    t.end();
   });
 
 });
-*/
 
