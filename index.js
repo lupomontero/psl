@@ -72,7 +72,10 @@ exports.errorCodes = {
 // * http://en.wikipedia.org/wiki/Domain_name
 // * http://en.wikipedia.org/wiki/Hostname
 //
-function validate(ascii) {
+function validate(input) {
+  // Before we can validate we need to take care of IDNs with unicode chars.
+  var ascii = punycode.toASCII(input);
+
   if (ascii.length < 1) {
     return 'DOMAIN_TOO_SHORT';
   }
@@ -119,22 +122,17 @@ exports.parse = function (input) {
     throw new TypeError('Domain name must be a string.');
   }
 
+  // Force domain to lowercase.
+  var domain = input.slice(0).toLowerCase();
+
   // Handle FQDN.
   // TODO: Simply remove trailing dot?
-  if (input.charAt(input.length - 1) === '.') {
-    input = input.slice(0, input.length - 1);
+  if (domain.charAt(domain.length - 1) === '.') {
+    domain = domain.slice(0, domain.length - 1);
   }
 
-  // Force domain to lowercase.
-  input = input.toLowerCase();
-
-  // Before we can validate we need to take care of IDNs with unicode chars.
-  var ascii = punycode.toASCII(input);
-  var isUnicode = (ascii !== input);
-  var isPunycode = /xn--/.test(input);
-
   // Validate and sanitise input.
-  var error = validate(ascii);
+  var error = validate(domain);
   if (error) {
     return {
       input: input,
@@ -155,13 +153,13 @@ exports.parse = function (input) {
     listed: false
   };
 
-  var domainParts = input.split('.');
+  var domainParts = domain.split('.');
 
   // Non-Internet TLD
   if (domainParts[domainParts.length - 1] === 'local') { return parsed; }
 
   function handlePunycode() {
-    if (!isPunycode) { return parsed; }
+    if (!/xn--/.test(domain)) { return parsed; }
     if (parsed.domain) {
       parsed.domain = punycode.toASCII(parsed.domain);
     }
@@ -171,9 +169,7 @@ exports.parse = function (input) {
     return parsed;
   }
 
-  // We search rules by input and not `domain`, as this has already been encoded
-  // to ascii and sanitised.
-  var rule = find(input);
+  var rule = find(domain);
 
   // Unlisted tld.
   if (!rule) {
