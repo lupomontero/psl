@@ -24,13 +24,16 @@ function endsWith(str, suffix) {
 //
 // Find rule for a given domain.
 //
-function find(domain) {
+function findRule(domain) {
   var punyDomain = punycode.toASCII(domain);
   return rules.reduce(function (memo, rule) {
     var punySuffix = punycode.toASCII(rule.suffix);
     if (!endsWith(punyDomain, '.' + punySuffix) && punyDomain !== punySuffix) {
       return memo;
     }
+    // This has been commented out as it never seems to run. This is because
+    // sub tlds always appear after their parents and we never find a shorter
+    // match.
     //if (memo) {
     //  var memoSuffix = punycode.toASCII(memo.suffix);
     //  if (memoSuffix.length >= punySuffix.length) {
@@ -42,7 +45,10 @@ function find(domain) {
 }
 
 
-exports.errorCodes = {
+//
+// Error codes and messages.
+//
+var errorCodes = {
   DOMAIN_TOO_SHORT: 'Domain name too short.',
   DOMAIN_TOO_LONG: 'Domain name too long. It should be no more than 255 chars.',
   LABEL_STARTS_WITH_DASH: 'Domain name label can not start with a dash.',
@@ -169,7 +175,7 @@ exports.parse = function (input) {
     return parsed;
   }
 
-  var rule = find(domain);
+  var rule = findRule(domain);
 
   // Unlisted tld.
   if (!rule) {
