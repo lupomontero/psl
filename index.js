@@ -143,7 +143,7 @@ exports.parse = function (input) {
     return {
       input: input,
       error: {
-        message: exports.errorCodes[error],
+        message: errorCodes[error],
         code: error
       }
     };
