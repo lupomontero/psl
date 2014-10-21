@@ -48,7 +48,7 @@ function findRule(domain) {
 //
 // Error codes and messages.
 //
-var errorCodes = {
+exports.errorCodes = {
   DOMAIN_TOO_SHORT: 'Domain name too short.',
   DOMAIN_TOO_LONG: 'Domain name too long. It should be no more than 255 chars.',
   LABEL_STARTS_WITH_DASH: 'Domain name label can not start with a dash.',
@@ -143,7 +143,7 @@ exports.parse = function (input) {
     return {
       input: input,
       error: {
-        message: errorCodes[error],
+        message: exports.errorCodes[error],
         code: error
       }
     };
