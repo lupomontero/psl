@@ -1,6 +1,6 @@
 {
   "name": "psl",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Domain name parser based on the Public Suffix List",
   "repository": {
     "type": "git",
