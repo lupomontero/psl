@@ -153,7 +153,6 @@ exports.parse = function (input) {
     input: input,
     tld: null,
     sld: null,
-    trd: null,
     domain: null,
     subdomain: null,
     listed: false
@@ -182,7 +181,6 @@ exports.parse = function (input) {
     if (domainParts.length < 2) { return parsed; }
     parsed.tld = domainParts.pop();
     parsed.sld = domainParts.pop();
-    parsed.trd = domainParts.pop() || null;
     parsed.domain = [ parsed.sld, parsed.tld ].join('.');
     if (domainParts.length) {
       parsed.subdomain = domainParts.pop();

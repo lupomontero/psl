@@ -97,10 +97,9 @@ test('psl.parse should throw when domain has invalid chars', function (t) {
 
 test('psl.parse should parse not-listed punycode domain', function (t) {
   var parsed = psl.parse('xn----dqo34k.xn----dqo34k');
-  t.plan(6);
+  t.plan(5);
   t.equal(parsed.tld, 'xn----dqo34k');
   t.equal(parsed.sld, 'xn----dqo34k');
-  t.equal(parsed.trd, null);
   t.equal(parsed.domain, 'xn----dqo34k.xn----dqo34k');
   t.equal(parsed.subdomain, null);
   t.equal(parsed.listed, false);
@@ -108,10 +107,9 @@ test('psl.parse should parse not-listed punycode domain', function (t) {
 
 test('psl.parse should parse a blogspot.co.uk domain', function (t) {
   var parsed = psl.parse('foo.blogspot.co.uk');
-  t.plan(6);
+  t.plan(5);
   t.equal(parsed.tld, 'blogspot.co.uk');
   t.equal(parsed.sld, 'foo');
-  t.equal(parsed.trd, null);
   t.equal(parsed.domain, 'foo.blogspot.co.uk');
   t.equal(parsed.subdomain, null);
   t.equal(parsed.listed, true);
@@ -119,10 +117,9 @@ test('psl.parse should parse a blogspot.co.uk domain', function (t) {
 
 test('psl.parse should parse domain without subdomains', function (t) {
   var parsed = psl.parse('google.com');
-  t.plan(6);
+  t.plan(5);
   t.equal(parsed.tld, 'com');
   t.equal(parsed.sld, 'google');
-  t.equal(parsed.trd, null);
   t.equal(parsed.domain, 'google.com');
   t.equal(parsed.subdomain, null);
   t.equal(parsed.listed, true);
@@ -130,23 +127,31 @@ test('psl.parse should parse domain without subdomains', function (t) {
 
 test('psl.parse should parse domain with subdomains', function (t) {
   var parsed = psl.parse('www.google.com');
-  t.plan(6);
+  t.plan(5);
   t.equal(parsed.tld, 'com');
   t.equal(parsed.sld, 'google');
-  t.equal(parsed.trd, 'www');
   t.equal(parsed.domain, 'google.com');
-  t.equal(parsed.subdomain, 'www.google.com');
+  t.equal(parsed.subdomain, 'www');
   t.equal(parsed.listed, true);
 });
 
 test('psl.parse should parse FQDN', function (t) {
   var parsed = psl.parse('www.google.com.');
-  t.plan(6);
+  t.plan(5);
   t.equal(parsed.tld, 'com');
   t.equal(parsed.sld, 'google');
-  t.equal(parsed.trd, 'www');
   t.equal(parsed.domain, 'google.com');
-  t.equal(parsed.subdomain, 'www.google.com');
+  t.equal(parsed.subdomain, 'www');
+  t.equal(parsed.listed, true);
+});
+
+test('psl.parse should parse a.b.c.d.foo.com', function (t) {
+  var parsed = psl.parse('a.b.c.d.foo.com');
+  t.plan(5);
+  t.equal(parsed.tld, 'com');
+  t.equal(parsed.sld, 'foo');
+  t.equal(parsed.domain, 'foo.com');
+  t.equal(parsed.subdomain, 'a.b.c.d');
   t.equal(parsed.listed, true);
 });
 
