@@ -54,11 +54,10 @@ loader.
 Parse domain based on Public Suffix List. Returns an `Object` with the following
 properties:
 
-* `tld`
-* `sld`
-* `trd`
-* `domain`
-* `subdomain`
+* `tld`: Top level domain (this is the _public suffix_).
+* `sld`: Second level domain (the first private part of the domain name).
+* `domain`: The domain name is the `sld` + `tld`.
+* `subdomain`: Optional parts left of the domain.
 
 #### Example:
 
@@ -69,7 +68,6 @@ var psl = require('psl');
 var parsed = psl.parse('google.com');
 console.log(parsed.tld); // 'com'
 console.log(parsed.sld); // 'google'
-console.log(parsed.trd); // null
 console.log(parsed.domain); // 'google.com'
 console.log(parsed.subdomain); // null
 
@@ -77,15 +75,20 @@ console.log(parsed.subdomain); // null
 var parsed = psl.parse('www.google.com');
 console.log(parsed.tld); // 'com'
 console.log(parsed.sld); // 'google'
-console.log(parsed.trd); // 'www'
 console.log(parsed.domain); // 'google.com'
-console.log(parsed.subdomain); // 'www.google.com'
+console.log(parsed.subdomain); // 'www'
+
+// Parse domain with nested subdomains
+var parsed = psl.parse('a.b.c.d.foo.com');
+console.log(parsed.tld); // 'com'
+console.log(parsed.sld); // 'foo'
+console.log(parsed.domain); // 'foo.com'
+console.log(parsed.subdomain); // 'a.b.c.d'
 ```
 
 ### `psl.get(domain)`
 
-Get domain's Public Suffix. Returns a `String` with the Public Suffix if found
-or `null` if not found.
+Get domain name, `sld` + `trd`. Returns `null` if not valid.
 
 #### Example:
 
