@@ -213,8 +213,7 @@ exports.parse = function (input) {
   parsed.domain = [ parsed.sld,  parsed.tld ].join('.');
 
   if (privateParts.length) {
-    parsed.trd = privateParts.pop();
-    parsed.subdomain = [ parsed.trd, parsed.domain ].join('.');
+    parsed.subdomain = privateParts.join('.');
   }
 
   return handlePunycode();
