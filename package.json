@@ -29,7 +29,7 @@
     "grunt-contrib-uglify": "^0.6.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-shell": "^1.1.1",
-    "phantomjs": "^1.9.10",
+    "phantomjs": "^1.9.7",
     "tape": "^3.0.0",
     "zuul": "^1.11.2"
   }
