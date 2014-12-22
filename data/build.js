@@ -3,14 +3,15 @@
 //
 var fs = require('fs');
 var path = require('path');
+var request = require('request');
 var es = require('event-stream');
 var JSONStream = require('JSONStream');
 
 
 //
-// Paths to files.
+// Download URL and path to rules.json file.
 //
-var src = path.join(__dirname, 'effective_tld_names.dat');
+var src = 'https://publicsuffix.org/list/effective_tld_names.dat';
 var dest = path.join(__dirname, 'rules.json');
 
 
@@ -55,13 +56,12 @@ function parseLine(line, cb) {
 }
 
 //
-// Read rules from file.
+// Download rules and create rules.json file.
 //
-var readStream = fs.createReadStream(src, 'utf-8');
 var stringify = JSONStream.stringify('[', ',', ']');
 var writeStream = fs.createWriteStream(dest);
 
-readStream
+request(src)
   .pipe(es.split())
   .pipe(es.map(parseLine))
   .pipe(stringify)
