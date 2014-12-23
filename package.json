@@ -30,10 +30,8 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-shell": "^1.1.1",
     "phantomjs": "^1.9.13",
+    "request": "^2.51.0",
     "tape": "^3.0.0",
     "zuul": "^1.11.2"
-  },
-  "dependencies": {
-    "request": "^2.51.0"
   }
 }
