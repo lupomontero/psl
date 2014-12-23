@@ -1,6 +1,7 @@
 # psl (Public Suffix List)
 
 [![Build Status](https://travis-ci.org/wrangr/psl.svg?branch=master)](https://travis-ci.org/wrangr/psl)
+[![Dependencies](https://david-dm.org/wrangr/psl.svg?style=flat)](https://david-dm.org/wrangr/psl)
 
 `psl` is a `JavaScript` domain name parser based on the
 [Public Suffix List](https://publicsuffix.org/).
