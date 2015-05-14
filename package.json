@@ -17,7 +17,7 @@
   "author": "Lupo Montero",
   "license": "MIT",
   "devDependencies": {
-    "JSONStream": "^0.10.0",
+    "JSONStream": "^1.0.3",
     "coverify": "^1.0.7",
     "derequire": "^2.0.0",
     "event-stream": "^3.1.7",
@@ -32,6 +32,6 @@
     "phantomjs": "^1.9.13",
     "request": "^2.51.0",
     "tape": "^4.0.0",
-    "zuul": "^2.1.1"
+    "zuul": "^3.0.0"
   }
 }
