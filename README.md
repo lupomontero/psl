@@ -124,12 +124,6 @@ psl.get('uk.com'); // null);
 psl.get('example.uk.com'); // 'example.uk.com');
 psl.get('b.example.uk.com'); // 'example.uk.com');
 
-// TLD with only 1 (wildcard) rule.
-psl.get('cy'); // null
-psl.get('c.cy'); // null
-psl.get('b.c.cy'); // 'b.c.cy'
-psl.get('a.b.c.cy'); // 'b.c.cy'
-
 // More complex TLD.
 psl.get('c.kobe.jp'); // null
 psl.get('b.c.kobe.jp'); // 'b.c.kobe.jp'

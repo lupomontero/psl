@@ -48,11 +48,6 @@ checkPublicSuffix('example.uk.com', 'example.uk.com');
 checkPublicSuffix('b.example.uk.com', 'example.uk.com');
 checkPublicSuffix('a.b.example.uk.com', 'example.uk.com');
 checkPublicSuffix('test.ac', 'test.ac');
-// TLD with only 1 (wildcard) rule.
-checkPublicSuffix('cy', null);
-checkPublicSuffix('c.cy', 'c.cy');
-checkPublicSuffix('b.c.cy', 'c.cy');
-checkPublicSuffix('a.b.c.cy', 'c.cy');
 // More complex TLD.
 checkPublicSuffix('jp', null);
 checkPublicSuffix('test.jp', 'test.jp');
