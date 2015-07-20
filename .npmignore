@@ -1,5 +1,5 @@
 data/build.js
-data/effective_tld_names.dat
+data/public_suffix_list.dat
 dist/
 examples/
 test/
