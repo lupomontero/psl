@@ -2,7 +2,6 @@ var bin = {
   browserify: './node_modules/grunt-browserify/node_modules/browserify/bin/cmd.js',
   zuul: './node_modules/.bin/zuul',
   coverify: './node_modules/.bin/coverify',
-  derequire: './node_modules/.bin/derequire'
 };
 
 module.exports = function (grunt) {
@@ -36,10 +35,6 @@ module.exports = function (grunt) {
       data: {
         command: 'node ./data/build.js',
         options: { stdout: true, stderr: true }
-      },
-      derequire: {
-        command: bin.derequire + ' dist/psl.js > dist/psl.amd.js',
-        options: { stdout: true, stderr: true }
       }
     },
 
@@ -59,27 +54,6 @@ module.exports = function (grunt) {
       umd: {
         src: [ 'dist/<%= pkg.name %>.js' ],
         dest: 'dist/<%= pkg.name %>.min.js'
-      },
-      amd: {
-        src: [ 'dist/<%= pkg.name %>.amd.js' ],
-        dest: 'dist/<%= pkg.name %>.amd.min.js'
-      }
-    },
-
-    compress: {
-      main: {
-        options: {
-          mode: 'gzip'
-        },
-        files: [
-          {
-            expand: true,
-            cwd: 'dist/',
-            src: [ '<%= pkg.name %>.min.js' ],
-            dest: 'dist/',
-            ext: '.min.js.gz'
-          }
-        ]
       }
     },
 
@@ -103,7 +77,6 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-browserify');
@@ -120,9 +93,7 @@ module.exports = function (grunt) {
     'clean',
     'shell:data',
     'browserify',
-    'shell:derequire',
-    'uglify',
-    'compress'
+    'uglify'
   ]);
 
 };
