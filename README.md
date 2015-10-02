@@ -160,20 +160,19 @@ psl.isValid('x.yz'); // false
 
 ## Testing and Building
 
-Test are written using [`tape`](https://www.npmjs.org/package/tape) and can be
-run in three different environments: `node`, `phantomjs` and local browsers.
+Test are written using [`mocha`](https://mochajs.org/) and can be
+run in two different environments: `node` and `phantomjs`.
 
 ```sh
-# This will run the `jshint`, `test-node` and `test-phantom` grunt tasks.
+# This will run the `jshint`, `test:node` and `test:phantom` grunt tasks.
 npm test
 
 # Individual test environments
-grunt test-node     # Run tests in node only.
-grunt test-phantom  # Run tests in phantomjs only.
-grunt test-local    # Run tests in local browser.
+gulp test:node     # Run tests in node only.
+gulp test:phantom  # Run tests in phantomjs only.
 
 # Build data (parse raw list) and create dist files
-grunt build
+gulp build
 ```
 
 Feel free to fork if you see possible improvements!
@@ -191,7 +190,7 @@ Feel free to fork if you see possible improvements!
 
 The MIT License (MIT)
 
-Copyright (c) 2014 Lupo Montero &lt;lupo@wrangr.com&gt;
+Copyright (c) 2015 Lupo Montero &lt;lupo@wrangr.com&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
