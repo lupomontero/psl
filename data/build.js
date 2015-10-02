@@ -1,24 +1,28 @@
 //
 // Deps
 //
-var fs = require('fs');
-var path = require('path');
-var request = require('request');
-var es = require('event-stream');
+var Fs = require('fs');
+var Path = require('path');
+var Request = require('request');
+var EventStream = require('event-stream');
 var JSONStream = require('JSONStream');
+
+
+var internals = {};
 
 
 //
 // Download URL and path to rules.json file.
 //
-var src = 'https://publicsuffix.org/list/effective_tld_names.dat';
-var dest = path.join(__dirname, 'rules.json');
+internals.src = 'https://publicsuffix.org/list/effective_tld_names.dat';
+internals.dest = Path.join(__dirname, 'rules.json');
 
 
 //
 // Parse line (trim and ignore empty lines and comments).
 //
-function parseLine(line, cb) {
+internals.parseLine = function (line, cb) {
+
   var trimmed = line.trim();
 
   // Ignore empty lines and comments.
@@ -53,17 +57,15 @@ function parseLine(line, cb) {
   }
 
   cb(null, item);
-}
+};
+
 
 //
 // Download rules and create rules.json file.
 //
-var stringify = JSONStream.stringify('[', ',', ']');
-var writeStream = fs.createWriteStream(dest);
-
-request(src)
-  .pipe(es.split())
-  .pipe(es.map(parseLine))
-  .pipe(stringify)
-  .pipe(writeStream);
+Request(internals.src)
+  .pipe(EventStream.split())
+  .pipe(EventStream.map(internals.parseLine))
+  .pipe(JSONStream.stringify('[', ',', ']'))
+  .pipe(Fs.createWriteStream(internals.dest));
 
