@@ -164,15 +164,17 @@ Test are written using [`mocha`](https://mochajs.org/) and can be
 run in two different environments: `node` and `phantomjs`.
 
 ```sh
-# This will run the `jshint`, `test:node` and `test:phantom` grunt tasks.
+# This will run `eslint`, `mocha` and `karma`.
 npm test
 
 # Individual test environments
-gulp test:node     # Run tests in node only.
-gulp test:phantom  # Run tests in phantomjs only.
+# Run tests in node only.
+./node_modules/.bin/mocha test
+# Run tests in phantomjs only.
+./node_modules/.bin/karma start ./karma.conf.js --single-run
 
 # Build data (parse raw list) and create dist files
-gulp build
+npm run-script build
 ```
 
 Feel free to fork if you see possible improvements!
