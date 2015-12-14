@@ -1,3 +1,7 @@
+/*eslint no-var:0, prefer-arrow-callback: 0 */
+'use strict';
+
+
 var Assert = require('assert');
 var Psl = require('../');
 
@@ -6,7 +10,10 @@ describe('psl.parse()', function () {
 
   it('should throw when no domain passed', function () {
 
-    Assert.throws(function () { Psl.parse(); }, /Domain name must be a string/i);
+    Assert.throws(function () {
+
+      Psl.parse();
+    }, /Domain name must be a string/i);
   });
 
   it('should return obj with error when domain too short', function () {
@@ -20,7 +27,9 @@ describe('psl.parse()', function () {
   it('should return obj with error when domain too long', function () {
 
     var str = '';
-    while (str.length < 256) { str += 'x'; }
+    while (str.length < 256) {
+      str += 'x';
+    }
     Assert.equal(str.length, 256);
     var parsed = Psl.parse(str);
     Assert.equal(parsed.input, str);
@@ -39,7 +48,9 @@ describe('psl.parse()', function () {
   it('should return obj with error when label too long', function () {
 
     var str = '';
-    while (str.length < 64) { str += 'x'; }
+    while (str.length < 64) {
+      str += 'x';
+    }
     Assert.equal(str.length, 64);
     var parsed = Psl.parse(str + '.com');
     Assert.equal(parsed.input, str + '.com');

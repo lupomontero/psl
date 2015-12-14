@@ -1,20 +1,23 @@
+'use strict';
+
+
 module.exports = function (config) {
 
   config.set({
 
-    browsers: [ 'PhantomJS' ],
+    browsers: ['PhantomJS'],
 
-    frameworks: [ 'browserify', 'mocha' ],
+    frameworks: ['browserify', 'mocha'],
 
     files: [
       'test/**/*.spec.js'
     ],
 
     preprocessors: {
-      'test/**/*.spec.js': [ 'browserify' ]
+      'test/**/*.spec.js': ['browserify']
     },
 
-    reporters: [ 'mocha' ],
+    reporters: ['mocha'],
 
     client: {
       mocha: {

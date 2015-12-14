@@ -1,83 +1,94 @@
-var Path = require('path');
-var ChildProcess = require('child_process');
-var Gulp = require('gulp');
-var Jshint = require('gulp-jshint');
-var Mocha = require('gulp-mocha');
-var Karma = require('karma');
-var Rimraf = require('rimraf');
-var Browserify = require('browserify');
-var Gutil = require('gulp-util');
-var Source = require('vinyl-source-stream');
-var Buffer = require('vinyl-buffer');
-var Uglify = require('gulp-uglify');
-var Rename = require('gulp-rename');
-var Pkg = require('./package.json');
+'use strict';
 
 
-var internals = {};
+const Path = require('path');
+const ChildProcess = require('child_process');
+const Gulp = require('gulp');
+const Eslint = require('gulp-eslint');
+const Mocha = require('gulp-mocha');
+const Karma = require('karma');
+const Rimraf = require('rimraf');
+const Browserify = require('browserify');
+const Gutil = require('gulp-util');
+const Source = require('vinyl-source-stream');
+const Buffer = require('vinyl-buffer');
+const Uglify = require('gulp-uglify');
+const Rename = require('gulp-rename');
+const Pkg = require('./package.json');
+
+
+const internals = {};
 
 
 internals.files = {
-  test: [ 'test/**/*.js' ],
-  src: [ 'index.js' ],
-  other: [ 'gulpfile.js', 'build/build.js' ]
+  test: ['test/**/*.js'],
+  src: ['index.js'],
+  other: ['gulpfile.js', 'build/build.js']
 };
 
 
 internals.files.all = internals.files.test.concat(internals.files.src, internals.files.other);
 
 
-Gulp.task('lint', function () {
+Gulp.task('lint', () => {
 
   return Gulp.src(internals.files.all)
-    .pipe(Jshint({ predef: [ '-Promise' ] }))
-    .pipe(Jshint.reporter('jshint-stylish'));
+    .pipe(Eslint())
+    .pipe(Eslint.format())
+    .pipe(Eslint.failAfterError());
 });
 
 
-Gulp.task('test:node', [ 'lint' ], function () {
+Gulp.task('test:node', ['lint'], () => {
 
-  return Gulp.src([ 'test/**/*.spec.js' ], { read: false })
-    .pipe(Mocha());
+  return Gulp.src(['test/**/*.spec.js'], { read: false }).pipe(Mocha());
 });
 
 
-Gulp.task('test:phantom', [ 'lint' ], function (done) {
+Gulp.task('test:phantom', ['lint'], (done) => {
 
-  var server = new Karma.Server({
+  const server = new Karma.Server({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
-  }, done);
+  }, (exitCode) => {
+
+    if (exitCode) {
+      return done(new Error('failed karma tests'));
+    }
+    done();
+  });
 
   server.start();
 });
 
 
-Gulp.task('test', [ 'test:node', 'test:phantom' ]);
+Gulp.task('test', ['test:node', 'test:phantom']);
 
 
-Gulp.task('clean', function (done) {
+Gulp.task('clean', (done) => {
 
-  Rimraf('data/rules.json', function (err) {
-  
-    if (err) { return done(err); }
+  Rimraf('data/rules.json', (err) => {
+
+    if (err) {
+      return done(err);
+    }
     Rimraf('dist', done);
   });
 });
 
 
-Gulp.task('rules', [ 'clean' ], function (done) {
+Gulp.task('rules', ['clean'], (done) => {
 
-  ChildProcess.exec('node ' + Path.resolve('./data/build.js'), function (err) {
+  ChildProcess.exec('node ' + Path.resolve('./data/build.js'), (err) => {
 
     done(err);
   });
 });
 
 
-Gulp.task('build', [ 'rules' ], function () {
+Gulp.task('build', ['rules'], () => {
 
-  var bundler = Browserify('./index.js', {
+  const bundler = Browserify('./index.js', {
     standalone: 'psl'
   });
 
@@ -92,11 +103,11 @@ Gulp.task('build', [ 'rules' ], function () {
 });
 
 
-Gulp.task('watch', function () {
+Gulp.task('watch', () => {
 
-  Gulp.watch(internals.files.all, [ 'test:node', 'test:phantom' ]);
+  Gulp.watch(internals.files.all, ['test:node', 'test:phantom']);
 });
 
 
-Gulp.task('default', [ 'build' ]);
+Gulp.task('default', ['build']);
 

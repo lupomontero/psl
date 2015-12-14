@@ -1,14 +1,16 @@
+'use strict';
+
 //
 // Deps
 //
-var Fs = require('fs');
-var Path = require('path');
-var Request = require('request');
-var EventStream = require('event-stream');
-var JSONStream = require('JSONStream');
+const Fs = require('fs');
+const Path = require('path');
+const Request = require('request');
+const EventStream = require('event-stream');
+const JSONStream = require('JSONStream');
 
 
-var internals = {};
+const internals = {};
 
 
 //
@@ -23,7 +25,7 @@ internals.dest = Path.join(__dirname, 'rules.json');
 //
 internals.parseLine = function (line, cb) {
 
-  var trimmed = line.trim();
+  const trimmed = line.trim();
 
   // Ignore empty lines and comments.
   if (!trimmed || (trimmed.charAt(0) === '/' && trimmed.charAt(1) === '/')) {
@@ -31,14 +33,14 @@ internals.parseLine = function (line, cb) {
   }
 
   // Only read up to first whitespace char.
-  var rule = trimmed.split(' ')[0];
+  const rule = trimmed.split(' ')[0];
   return cb(null, rule);
 
-  var item = [ rule ];
+  const item = [rule];
 
-  var suffix = rule.replace(/^(\*\.|\!)/, '');
-  var wildcard = rule.charAt(0) === '*';
-  var exception = rule.charAt(0) === '!';
+  const suffix = rule.replace(/^(\*\.|\!)/, '');
+  const wildcard = rule.charAt(0) === '*';
+  const exception = rule.charAt(0) === '!';
 
   // If rule has no wildcard or exception we can get away with only one
   // element in the `item` array.

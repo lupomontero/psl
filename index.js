@@ -1,9 +1,18 @@
-var punycode = require('punycode');
+/*eslint no-var:0, prefer-arrow-callback: 0 */
+'use strict';
+
+
+var Punycode = require('punycode');
+
+
+var internals = {};
+
 
 //
 // Read rules from file.
 //
-var rules = require('./data/rules.json').map(function (rule) {
+internals.rules = require('./data/rules.json').map(function (rule) {
+
   return {
     rule: rule,
     suffix: rule.replace(/^(\*\.|\!)/, ''),
@@ -16,33 +25,36 @@ var rules = require('./data/rules.json').map(function (rule) {
 //
 // Check is given string ends with `suffix`.
 //
-function endsWith(str, suffix) {
+internals.endsWith = function (str, suffix) {
+
   return str.indexOf(suffix, str.length - suffix.length) !== -1;
-}
+};
 
 
 //
 // Find rule for a given domain.
 //
-function findRule(domain) {
-  var punyDomain = punycode.toASCII(domain);
-  return rules.reduce(function (memo, rule) {
-    var punySuffix = punycode.toASCII(rule.suffix);
-    if (!endsWith(punyDomain, '.' + punySuffix) && punyDomain !== punySuffix) {
+internals.findRule = function (domain) {
+
+  var punyDomain = Punycode.toASCII(domain);
+  return internals.rules.reduce(function (memo, rule) {
+
+    var punySuffix = Punycode.toASCII(rule.suffix);
+    if (!internals.endsWith(punyDomain, '.' + punySuffix) && punyDomain !== punySuffix) {
       return memo;
     }
     // This has been commented out as it never seems to run. This is because
     // sub tlds always appear after their parents and we never find a shorter
     // match.
     //if (memo) {
-    //  var memoSuffix = punycode.toASCII(memo.suffix);
+    //  var memoSuffix = Punycode.toASCII(memo.suffix);
     //  if (memoSuffix.length >= punySuffix.length) {
     //    return memo;
     //  }
     //}
     return rule;
   }, null);
-}
+};
 
 
 //
@@ -78,9 +90,10 @@ exports.errorCodes = {
 // * http://en.wikipedia.org/wiki/Domain_name
 // * http://en.wikipedia.org/wiki/Hostname
 //
-function validate(input) {
+internals.validate = function (input) {
+
   // Before we can validate we need to take care of IDNs with unicode chars.
-  var ascii = punycode.toASCII(input);
+  var ascii = Punycode.toASCII(input);
 
   if (ascii.length < 1) {
     return 'DOMAIN_TOO_SHORT';
@@ -91,9 +104,9 @@ function validate(input) {
 
   // Check each part's length and allowed chars.
   var labels = ascii.split('.');
-  var label, i, len = labels.length;
+  var label;
 
-  for (i = 0; i < len; i++) {
+  for (var i = 0; i < labels.length; ++i) {
     label = labels[i];
     if (!label.length) {
       return 'LABEL_TOO_SHORT';
@@ -111,7 +124,7 @@ function validate(input) {
       return 'LABEL_INVALID_CHARS';
     }
   }
-}
+};
 
 
 //
@@ -138,7 +151,7 @@ exports.parse = function (input) {
   }
 
   // Validate and sanitise input.
-  var error = validate(domain);
+  var error = internals.validate(domain);
   if (error) {
     return {
       input: input,
@@ -161,27 +174,34 @@ exports.parse = function (input) {
   var domainParts = domain.split('.');
 
   // Non-Internet TLD
-  if (domainParts[domainParts.length - 1] === 'local') { return parsed; }
-
-  function handlePunycode() {
-    if (!/xn--/.test(domain)) { return parsed; }
-    if (parsed.domain) {
-      parsed.domain = punycode.toASCII(parsed.domain);
-    }
-    if (parsed.subdomain) {
-      parsed.subdomain = punycode.toASCII(parsed.subdomain);
-    }
+  if (domainParts[domainParts.length - 1] === 'local') {
     return parsed;
   }
 
-  var rule = findRule(domain);
+  var handlePunycode = function () {
+
+    if (!/xn--/.test(domain)) {
+      return parsed;
+    }
+    if (parsed.domain) {
+      parsed.domain = Punycode.toASCII(parsed.domain);
+    }
+    if (parsed.subdomain) {
+      parsed.subdomain = Punycode.toASCII(parsed.subdomain);
+    }
+    return parsed;
+  };
+
+  var rule = internals.findRule(domain);
 
   // Unlisted tld.
   if (!rule) {
-    if (domainParts.length < 2) { return parsed; }
+    if (domainParts.length < 2) {
+      return parsed;
+    }
     parsed.tld = domainParts.pop();
     parsed.sld = domainParts.pop();
-    parsed.domain = [ parsed.sld, parsed.tld ].join('.');
+    parsed.domain = [parsed.sld, parsed.tld].join('.');
     if (domainParts.length) {
       parsed.subdomain = domainParts.pop();
     }
@@ -198,17 +218,21 @@ exports.parse = function (input) {
     privateParts.push(tldParts.shift());
   }
 
-  if (!privateParts.length) { return handlePunycode(); }
-
-  if (rule.wildcard) {
-    tldParts.unshift(privateParts.pop()); 
+  if (!privateParts.length) {
+    return handlePunycode();
   }
 
-  if (!privateParts.length) { return handlePunycode(); }
+  if (rule.wildcard) {
+    tldParts.unshift(privateParts.pop());
+  }
+
+  if (!privateParts.length) {
+    return handlePunycode();
+  }
 
   parsed.tld = tldParts.join('.');
   parsed.sld = privateParts.pop();
-  parsed.domain = [ parsed.sld,  parsed.tld ].join('.');
+  parsed.domain = [parsed.sld,  parsed.tld].join('.');
 
   if (privateParts.length) {
     parsed.subdomain = privateParts.join('.');
@@ -217,18 +241,24 @@ exports.parse = function (input) {
   return handlePunycode();
 };
 
+
 //
 // Get domain.
 //
 exports.get = function (domain) {
-  if (!domain) { return null; }
+
+  if (!domain) {
+    return null;
+  }
   return exports.parse(domain).domain || null;
 };
+
 
 //
 // Check whether domain belongs to a known public suffix.
 //
 exports.isValid = function (domain) {
+
   var parsed = exports.parse(domain);
   return Boolean(parsed.domain && parsed.listed);
 };

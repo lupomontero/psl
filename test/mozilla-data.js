@@ -1,8 +1,13 @@
+/*eslint no-var:0, prefer-arrow-callback: 0 */
+'use strict';
+
+
 var testData = module.exports = [];
 
-function checkPublicSuffix(value, expected) {
+var checkPublicSuffix = function (value, expected) {
+
   testData.push({ value: value, expected: expected });
-}
+};
 
 
 

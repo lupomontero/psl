@@ -3,6 +3,7 @@ node_js:
   - 0.10
   - 0.12
   - 4
+  - 5
 before_install:
   - sudo rm -rf /usr/local/phantomjs
   - curl -L -O https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2
