@@ -1,4 +1,4 @@
-/*eslint no-var:0, prefer-arrow-callback: 0 */
+/*eslint no-var:0, prefer-arrow-callback: 0, object-shorthand: 0 */
 'use strict';
 
 
@@ -262,4 +262,3 @@ exports.isValid = function (domain) {
   var parsed = exports.parse(domain);
   return Boolean(parsed.domain && parsed.listed);
 };
-

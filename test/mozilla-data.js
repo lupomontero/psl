@@ -1,4 +1,4 @@
-/*eslint no-var:0, prefer-arrow-callback: 0 */
+/*eslint no-var:0, prefer-arrow-callback: 0, object-shorthand: 0 */
 'use strict';
 
 
@@ -107,4 +107,3 @@ checkPublicSuffix('xn--85x722f.xn--fiqs8s', 'xn--85x722f.xn--fiqs8s');
 checkPublicSuffix('www.xn--85x722f.xn--fiqs8s', 'xn--85x722f.xn--fiqs8s');
 checkPublicSuffix('shishi.xn--fiqs8s', 'shishi.xn--fiqs8s');
 checkPublicSuffix('xn--fiqs8s', null);
-
