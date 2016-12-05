@@ -8,12 +8,12 @@
   },
   "main": "index.js",
   "scripts": {
-    "pretest": "./node_modules/.bin/eslint .",
-    "test": "./node_modules/.bin/mocha test && ./node_modules/.bin/karma start ./karma.conf.js --single-run",
-    "watch": "./node_modules/.bin/mocha test --watch",
+    "pretest": "eslint .",
+    "test": "mocha test && karma start ./karma.conf.js --single-run",
+    "watch": "mocha test --watch",
     "prebuild": "node ./data/build.js",
-    "build": "./node_modules/.bin/browserify ./index.js --standalone=psl > ./dist/psl.js",
-    "postbuild": "cat ./dist/psl.js | ./node_modules/.bin/uglifyjs -c -m > ./dist/psl.min.js"
+    "build": "browserify ./index.js --standalone=psl > ./dist/psl.js",
+    "postbuild": "cat ./dist/psl.js | uglifyjs -c -m > ./dist/psl.min.js"
   },
   "keywords": [
     "publicsuffix",

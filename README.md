@@ -174,7 +174,7 @@ npm test
 ./node_modules/.bin/karma start ./karma.conf.js --single-run
 
 # Build data (parse raw list) and create dist files
-npm run-script build
+npm run build
 ```
 
 Feel free to fork if you see possible improvements!
