@@ -1,5 +1,7 @@
 # psl (Public Suffix List)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/wrangr/psl.svg)](https://greenkeeper.io/)
+
 [![NPM](https://nodei.co/npm/psl.png?downloads=true&downloadRank=true)](https://nodei.co/npm/psl/)
 
 [![Build Status](https://travis-ci.org/wrangr/psl.svg?branch=master)](https://travis-ci.org/wrangr/psl)
