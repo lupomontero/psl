@@ -28,7 +28,7 @@
     "eslint-config-hapi": "^10.0.0",
     "eslint-plugin-hapi": "^4.0.0",
     "event-stream": "^3.3.4",
-    "karma": "^1.5.0",
+    "karma": "^1.6.0",
     "karma-browserify": "^5.1.1",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.3",
