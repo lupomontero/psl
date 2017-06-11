@@ -36,7 +36,7 @@
     "mocha": "^3.4.2",
     "phantomjs-prebuilt": "^2.1.14",
     "request": "^2.81.0",
-    "uglifyjs": "^2.4.11",
+    "uglify-js": "^3.0.15",
     "watchify": "^3.9.0"
   }
 }
