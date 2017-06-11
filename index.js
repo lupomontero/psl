@@ -218,19 +218,21 @@ exports.parse = function (input) {
     privateParts.push(tldParts.shift());
   }
 
+  parsed.tld = tldParts.join('.');
+
   if (!privateParts.length) {
     return handlePunycode();
   }
 
   if (rule.wildcard) {
     tldParts.unshift(privateParts.pop());
+    parsed.tld = tldParts.join('.');
   }
 
   if (!privateParts.length) {
     return handlePunycode();
   }
 
-  parsed.tld = tldParts.join('.');
   parsed.sld = privateParts.pop();
   parsed.domain = [parsed.sld,  parsed.tld].join('.');
 

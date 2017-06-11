@@ -158,5 +158,34 @@ describe('psl.parse()', function () {
     Assert.equal(parsed.listed, true);
   });
 
-});
+  it('should parse data.gov.uk', function () {
 
+    var parsed = Psl.parse('data.gov.uk');
+    Assert.equal(parsed.tld, 'gov.uk');
+    Assert.equal(parsed.sld, 'data');
+    Assert.equal(parsed.domain, 'data.gov.uk');
+    Assert.equal(parsed.subdomain, null);
+    Assert.equal(parsed.listed, true);
+  });
+
+  it('should parse gov.uk', function () {
+
+    var parsed = Psl.parse('gov.uk');
+    Assert.equal(parsed.tld, 'gov.uk');
+    Assert.equal(parsed.sld, null);
+    Assert.equal(parsed.domain, null);
+    Assert.equal(parsed.subdomain, null);
+    Assert.equal(parsed.listed, true);
+  });
+
+  it('should parse github.io', function () {
+
+    var parsed = Psl.parse('github.io');
+    Assert.equal(parsed.tld, 'github.io');
+    Assert.equal(parsed.sld, null);
+    Assert.equal(parsed.domain, null);
+    Assert.equal(parsed.subdomain, null);
+    Assert.equal(parsed.listed, true);
+  });
+
+});
