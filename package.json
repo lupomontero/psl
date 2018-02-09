@@ -7,6 +7,7 @@
     "url": "git@github.com:lupomontero/psl.git"
   },
   "main": "index.js",
+  "types": "types/index.d.ts",
   "scripts": {
     "lint": "eslint .",
     "test": "mocha test/*.spec.js",
