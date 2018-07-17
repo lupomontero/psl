@@ -35,10 +35,15 @@ internals.endsWith = function (str, suffix) {
 //
 // Find rule for a given domain.
 //
-internals.findRule = function (domain) {
+internals.findRule = function (domain, useFastFlag) {
+
+  if (useFastFlag && !internals.fastRules) {
+    throw new Error('Must call `precomputeFastRules` before using the fast variation of the parser');
+  }
 
   var punyDomain = Punycode.toASCII(domain);
-  return internals.rules.reduce(function (memo, rule) {
+  var rules = useFastFlag ? internals.fastRules : internals.rules;
+  return rules.reduce(function (memo, rule) {
 
     if (rule.punySuffix === -1){
       rule.punySuffix = Punycode.toASCII(rule.suffix);
@@ -129,20 +134,50 @@ internals.validate = function (input) {
   }
 };
 
+//
+// Filters the list of rules so there are no duplicates.
+//
+internals.onlyUniqueRules = function (value, index, xs) {
+
+  if (!value) {
+    return false;
+  }
+
+  return xs
+    .map(function (rule) {
+
+      return rule.rule;
+    })
+    .indexOf(value.rule) === index;
+};
+
 
 //
 // Public API
 //
 
+//
+// Generate a shorter list of rules from a preset list of domains.
+//
+exports.precomputeFastRules = function (domainsList) {
+
+  internals.fastRules = domainsList.map(function (domain) {
+
+    return internals.findRule(domain, false);
+  });
+
+  internals.fastRules = internals.fastRules.filter(internals.onlyUniqueRules);
+};
 
 //
 // Parse domain.
 //
-exports.parse = function (input) {
+exports.parse = function (input, useFastFlag) {
 
   if (typeof input !== 'string') {
     throw new TypeError('Domain name must be a string.');
   }
+  useFastFlag = useFastFlag || false;
 
   // Force domain to lowercase.
   var domain = input.slice(0).toLowerCase();
@@ -195,7 +230,7 @@ exports.parse = function (input) {
     return parsed;
   };
 
-  var rule = internals.findRule(domain);
+  var rule = internals.findRule(domain, useFastFlag);
 
   // Unlisted tld.
   if (!rule) {
@@ -255,9 +290,24 @@ exports.get = function (domain) {
   if (!domain) {
     return null;
   }
-  return exports.parse(domain).domain || null;
+  return exports.parse(domain, false).domain || null;
 };
 
+//
+// Get domain (using only precomputed domain rules).
+//
+exports.getFast = function (domain) {
+
+  if (!domain) {
+    return null;
+  }
+  var result = exports.parse(domain, true);
+
+  if (result.listed) {
+    return result.domain;
+  }
+  return null;
+};
 
 //
 // Check whether domain belongs to a known public suffix.
