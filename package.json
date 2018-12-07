@@ -1,19 +1,20 @@
 {
   "name": "psl",
   "version": "1.1.29",
-  "description": "Domain name parser based on the Public Suffix List",
+  "description": "Domain name parser based on the Public Suffix List.",
   "repository": {
     "type": "git",
     "url": "git@github.com:wrangr/psl.git"
   },
   "main": "index.js",
+  "module": "./dist/psl.esm.js",
   "scripts": {
     "pretest": "eslint .",
     "test": "mocha test && karma start ./karma.conf.js --single-run",
     "watch": "mocha test --watch",
     "prebuild": "node ./data/build.js",
     "build": "browserify ./index.js --standalone=psl > ./dist/psl.js",
-    "postbuild": "cat ./dist/psl.js | uglifyjs -c -m > ./dist/psl.min.js"
+    "postbuild": "rollup -c rollup.config.js && cat ./dist/psl.js | uglifyjs -c -m > ./dist/psl.min.js"
   },
   "keywords": [
     "publicsuffix",
@@ -36,6 +37,8 @@
     "mocha": "^5.2.0",
     "phantomjs-prebuilt": "^2.1.16",
     "request": "^2.87.0",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
     "uglify-js": "^3.4.6",
     "watchify": "^3.11.0"
   }
