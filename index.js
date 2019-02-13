@@ -123,7 +123,7 @@ internals.validate = function (input) {
     if (label.charAt(label.length - 1) === '-') {
       return 'LABEL_ENDS_WITH_DASH';
     }
-    if (!/^[a-z0-9\-]+$/.test(label)) {
+    if (!/^[a-z0-9\-_]+$/.test(label)) {
       return 'LABEL_INVALID_CHARS';
     }
   }
