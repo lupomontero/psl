@@ -81,6 +81,12 @@ internals.parse = new Transform({
     }
 
     cb();
+  },
+  flush(cb) {
+    if (this._last) {
+      this.push(this._last);
+    }
+    cb();
   }
 });
 
