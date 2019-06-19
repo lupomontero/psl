@@ -13,7 +13,8 @@
     "watch": "mocha test --watch",
     "prebuild": "node ./data/build.js",
     "build": "browserify ./index.js --standalone=psl > ./dist/psl.js",
-    "postbuild": "cat ./dist/psl.js | uglifyjs -c -m > ./dist/psl.min.js"
+    "postbuild": "cat ./dist/psl.js | uglifyjs -c -m > ./dist/psl.min.js",
+    "changelog": "git log $(git describe --tags --abbrev=0)..HEAD --oneline --format=\"%h %s (%an <%ae>)\""
   },
   "keywords": [
     "publicsuffix",
