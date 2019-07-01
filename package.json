@@ -4,7 +4,7 @@
   "description": "Domain name parser based on the Public Suffix List",
   "repository": {
     "type": "git",
-    "url": "git@github.com:wrangr/psl.git"
+    "url": "git@github.com:lupomontero/psl.git"
   },
   "main": "index.js",
   "scripts": {
