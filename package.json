@@ -11,9 +11,10 @@
     "pretest": "eslint .",
     "test": "mocha test && karma start ./karma.conf.js --single-run",
     "watch": "mocha test --watch",
-    "prebuild": "node ./data/build.js",
+    "prebuild": "./scripts/update-rules.js",
     "build": "browserify ./index.js --standalone=psl > ./dist/psl.js",
     "postbuild": "cat ./dist/psl.js | uglifyjs -c -m > ./dist/psl.min.js",
+    "commit-and-pr": "commit-and-pr",
     "changelog": "git log $(git describe --tags --abbrev=0)..HEAD --oneline --format=\"%h %s (%an <%ae>)\""
   },
   "keywords": [
@@ -25,6 +26,7 @@
   "devDependencies": {
     "JSONStream": "^1.3.5",
     "browserify": "^16.2.3",
+    "commit-and-pr": "^1.0.3",
     "eslint": "^5.16.0",
     "eslint-config-hapi": "^12.0.0",
     "eslint-plugin-hapi": "^4.1.0",
