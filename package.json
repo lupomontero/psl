@@ -21,7 +21,7 @@
     "publicsuffix",
     "publicsuffixlist"
   ],
-  "author": "Lupo Montero",
+  "author": "Lupo Montero <lupomontero@gmail.com> (https://lupomontero.com/)",
   "license": "MIT",
   "devDependencies": {
     "JSONStream": "^1.3.5",
