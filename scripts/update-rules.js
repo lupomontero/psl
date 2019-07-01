@@ -1,3 +1,6 @@
+#! /usr/bin/env node
+
+
 'use strict';
 
 //
@@ -17,7 +20,7 @@ const internals = {};
 // Download URL and path to rules.json file.
 //
 internals.src = 'https://publicsuffix.org/list/effective_tld_names.dat';
-internals.dest = Path.join(__dirname, 'rules.json');
+internals.dest = Path.join(__dirname, '../data/rules.json');
 
 
 //
