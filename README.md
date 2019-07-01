@@ -13,6 +13,9 @@ This implementation is tested against the
 [test data hosted by Mozilla](http://mxr.mozilla.org/mozilla-central/source/netwerk/test/unit/data/test_psl.txt?raw=1)
 and kindly provided by [Comodo](https://www.comodo.com/).
 
+Cross browser testing (hopefully soon) provided by
+[<img alt="BrowserStack" width="160" src="./browserstack-logo.svg" />](https://www.browserstack.com/)
+:pray:
 
 ## What is the Public Suffix List?
 
