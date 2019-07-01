@@ -99,5 +99,5 @@ internals.parse = new Transform({
 //
 Request(internals.src)
   .pipe(internals.parse)
-  .pipe(JSONStream.stringify('[', ',', ']'))
+  .pipe(JSONStream.stringify('[\n', ',\n', '\n]'))
   .pipe(Fs.createWriteStream(internals.dest));
