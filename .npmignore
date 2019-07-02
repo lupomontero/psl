@@ -1,4 +1,7 @@
-data/build.js
-data/public_suffix_list.dat
+.eslintignore
+.eslintrc
+.travis.yml
+karma.conf.js
 examples/
+scripts/
 test/
