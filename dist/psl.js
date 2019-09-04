@@ -6436,7 +6436,6 @@ module.exports=[
 "dubai",
 "duck",
 "dunlop",
-"duns",
 "dupont",
 "durban",
 "dvag",
