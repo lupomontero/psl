@@ -8786,8 +8786,7 @@ module.exports=[
 "basicserver.io",
 "virtualserver.io",
 "site.builder.nu",
-"enterprisecloud.nu",
-"zone.id"
+"enterprisecloud.nu"
 ]
 },{}],2:[function(require,module,exports){
 /*eslint no-var:0, prefer-arrow-callback: 0, object-shorthand: 0 */
