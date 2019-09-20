@@ -6024,6 +6024,7 @@ module.exports=[
 "الجزائر",
 "مصر",
 "ею",
+"موريتانيا",
 "გე",
 "ελ",
 "香港",
@@ -6789,7 +6790,6 @@ module.exports=[
 "mls",
 "mma",
 "mobile",
-"mobily",
 "moda",
 "moe",
 "moi",
@@ -7287,7 +7287,6 @@ module.exports=[
 "العليان",
 "اتصالات",
 "بازار",
-"موبايلي",
 "ابوظبي",
 "كاثوليك",
 "همراه",
@@ -7344,6 +7343,7 @@ module.exports=[
 "barsy.ca",
 "*.compute.estate",
 "*.alces.network",
+"altervista.org",
 "alwaysdata.net",
 "cloudfront.net",
 "*.compute.amazonaws.com",
@@ -8099,6 +8099,7 @@ module.exports=[
 "githubusercontent.com",
 "gitlab.io",
 "glitch.me",
+"lolipop.io",
 "cloudapps.digital",
 "london.cloudapps.digital",
 "homeoffice.gov.uk",
@@ -8786,8 +8787,7 @@ module.exports=[
 "basicserver.io",
 "virtualserver.io",
 "site.builder.nu",
-"enterprisecloud.nu",
-"zone.id"
+"enterprisecloud.nu"
 ]
 },{}],2:[function(require,module,exports){
 /*eslint no-var:0, prefer-arrow-callback: 0, object-shorthand: 0 */
