@@ -6702,7 +6702,6 @@ module.exports=[
 "lamer",
 "lancaster",
 "lancia",
-"lancome",
 "land",
 "landrover",
 "lanxess",
