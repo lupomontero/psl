@@ -6713,7 +6713,6 @@ module.exports=[
 "lego",
 "lexus",
 "lgbt",
-"liaison",
 "lidl",
 "life",
 "lifeinsurance",
