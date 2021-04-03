@@ -1,0 +1,57 @@
+name: Update TLDs
+
+on:
+  schedule:
+    - cron: '0 0 * * 6'
+
+jobs:
+  UpdateTLDs:
+    name: Update TLD's
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v2
+      - name: Use Node.js 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - name: Restore CI Cache
+        id: cache-restore
+        uses: actions/cache@v2.1.4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-14-${{ hashFiles('**/package-lock.json') }}
+      - name: Install Dependencies
+        if: ${{ !steps.cache-restore.outputs.cache-hit }}
+        run: npm ci
+      - name: Run the TLD updater script
+        run: npm run scripts:tlds
+      - name: Install GitHub CLI
+        env:
+          GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
+        run: |
+          curl -sL \
+              $(curl -sL \
+                  -H "Authorization: bearer ${GITHUB_TOKEN}" \
+                  -X POST \
+                  --data '{"query":"query { repository(owner: \"cli\", name: \"cli\") { releases(last: 1) { nodes { releaseAssets(first: 20) { nodes { downloadUrl name }}}}}}"}' "https://api.github.com/graphql" |
+                  jq -cr '.data.repository.releases.nodes[0].releaseAssets.nodes[]? | select(.name | contains("linux_amd64.tar.gz")).downloadUrl') |
+              tar -xz --wildcards "*gh" && mv gh*linux_amd64/bin/gh . && rm -r gh_*linux_amd64
+      - name: Commit any changes and create a pull request
+        env:
+          GITHUB_USER: lupomontero
+          GITHUB_EMAIL: lupomontero@gmail.com
+          GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
+        run: |
+          git add .;
+          if git diff-index --quiet HEAD --; then
+            exit 0;
+          else
+            git remote set-url origin "https://${GITHUB_TOKEN}:x-oauth-basic@github.com/${GITHUB_REPOSITORY}.git";
+            git config --local user.email "${GITHUB_EMAIL}";
+            git config --local user.name "${GITHUB_USER}";
+            git checkout -b lupomontero/update-tlds/$(date +%F-%H-%M);
+            git commit -sam "chore(rules): update rules and dist files";
+            git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
+            ./gh pr create -t "chore(rules): update rules and dist files";
+          fi

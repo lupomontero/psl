@@ -3,7 +3,7 @@
 
 
 var Assert = require('assert');
-var Psl = require('../');
+var Psl = require('../src');
 var Data = require('./mozilla-data');
 
 

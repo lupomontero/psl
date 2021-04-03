@@ -11,7 +11,7 @@ var internals = {};
 //
 // Read rules from file.
 //
-internals.rules = require('./data/rules.json').map(function (rule) {
+internals.rules = require('../data/rules.json').map(function (rule) {
 
   return {
     rule: rule,

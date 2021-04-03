@@ -2,3 +2,4 @@
 *.swp
 coverage/
 node_modules/
+dist/
