@@ -188,4 +188,14 @@ describe('psl.parse()', function () {
     Assert.equal(parsed.listed, true);
   });
 
+  it('should parse _jabber._tcp.gmail.com', function () {
+
+    var parsed = Psl.parse('_jabber._tcp.gmail.com');
+    Assert.equal(parsed.tld, 'com');
+    Assert.equal(parsed.sld, 'gmail');
+    Assert.equal(parsed.domain, 'gmail.com');
+    Assert.equal(parsed.subdomain, '_jabber._tcp');
+    Assert.equal(parsed.listed, true);
+  });
+
 });
