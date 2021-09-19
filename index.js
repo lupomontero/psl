@@ -123,22 +123,20 @@ internals.validate = function (input) {
     if (label.charAt(label.length - 1) === '-') {
       return 'LABEL_ENDS_WITH_DASH';
     }
-    if (!/^[a-z0-9\-]+$/.test(label)) {
+    if (!/^[a-z0-9\-_]+$/.test(label)) {
       return 'LABEL_INVALID_CHARS';
     }
   }
 };
 
+internals.validateDomain = function (domain) {
 
-//
-// Public API
-//
+  if (!/^[a-z0-9\-\.]+$/.test(Punycode.toASCII(domain))) {
+    return 'LABEL_INVALID_CHARS';
+  }
+};
 
-
-//
-// Parse domain.
-//
-exports.parse = function (input) {
+internals.parse = function (input) {
 
   if (typeof input !== 'string') {
     throw new TypeError('Domain name must be a string.');
@@ -244,6 +242,34 @@ exports.parse = function (input) {
   }
 
   return handlePunycode();
+};
+
+//
+// Public API
+//
+
+
+//
+// Parse domain.
+//
+exports.parse = function (input) {
+
+  var parsed = internals.parse(input);
+
+  if (parsed.domain) {
+    var error = internals.validateDomain(parsed.domain);
+    if (error) {
+      return {
+        input: input,
+        error: {
+          message: exports.errorCodes[error],
+          code: error
+        }
+      };
+    }
+  }
+
+  return parsed;
 };
 
 
