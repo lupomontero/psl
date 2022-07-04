@@ -1,7 +1,8 @@
-.eslintignore
-.eslintrc
-.travis.yml
-karma.conf.js
+.github
 examples/
 scripts/
 test/
+.env
+.eslintignore
+.eslintrc
+.travis.yml
