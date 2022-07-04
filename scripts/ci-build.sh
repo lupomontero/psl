@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 
-if [[ "$TRAVIS_EVENT_TYPE" != "cron" || "$TRAVIS_NODE_VERSION" != "12" || "$TRAVIS_BRANCH" != "master" ]]; then
+if [[ "$TRAVIS_EVENT_TYPE" != "cron" || "$TRAVIS_NODE_VERSION" != "12" || "$TRAVIS_BRANCH" != "main" ]]; then
   echo "Not triggered by cron. Running tests..."
   npm test
 else

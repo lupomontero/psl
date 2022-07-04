@@ -38,7 +38,7 @@ npm install --save psl
 
 ### Browser
 
-Download [psl.min.js](https://raw.githubusercontent.com/lupomontero/psl/master/dist/psl.min.js)
+Download [psl.min.js](https://raw.githubusercontent.com/lupomontero/psl/main/dist/psl.min.js)
 and include it in a script tag.
 
 ```html
