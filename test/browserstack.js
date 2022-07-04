@@ -35,8 +35,7 @@ const testBrowser = async (capabilities) => {
     })
     .build();
 
-  driver.get(url);
-
+  await driver.get(url);
   await driver.wait(webdriver.until.elementLocated(webdriver.By.id('results')));
 
   const results = await driver.executeScript(function () {
