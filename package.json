@@ -8,7 +8,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "pretest": "eslint .",
+    "lint": "eslint .",
     "test": "mocha test/*.spec.js",
     "test:browserstack": "node test/browserstack.js",
     "watch": "mocha test --watch",
