@@ -49,6 +49,11 @@ This script is browserified and wrapped in a [umd](https://github.com/umdjs/umd)
 wrapper so you should be able to use it standalone or together with a module
 loader.
 
+The script is also available on most popular CDNs. For example:
+
+* https://cdnjs.cloudflare.com/ajax/libs/psl/1.9.0/psl.min.js
+* https://unpkg.com/psl@1.9.0/dist/psl.min.js
+
 ## API
 
 ### `psl.parse(domain)`
