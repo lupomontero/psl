@@ -24,7 +24,7 @@ internals.rules = require('./data/rules.json').map(function (rule) {
 
 
 //
-// Check is given string ends with `suffix`.
+// Check if given string ends with `suffix`.
 //
 internals.endsWith = function (str, suffix) {
 
@@ -40,7 +40,7 @@ internals.findRule = function (domain) {
   var punyDomain = Punycode.toASCII(domain);
   return internals.rules.reduce(function (memo, rule) {
 
-    if (rule.punySuffix === -1){
+    if (rule.punySuffix === -1) {
       rule.punySuffix = Punycode.toASCII(rule.suffix);
     }
     if (!internals.endsWith(punyDomain, '.' + rule.punySuffix) && punyDomain !== rule.punySuffix) {
@@ -237,7 +237,7 @@ exports.parse = function (input) {
   }
 
   parsed.sld = privateParts.pop();
-  parsed.domain = [parsed.sld,  parsed.tld].join('.');
+  parsed.domain = [parsed.sld, parsed.tld].join('.');
 
   if (privateParts.length) {
     parsed.subdomain = privateParts.join('.');
