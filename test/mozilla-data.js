@@ -1,8 +1,8 @@
 /*eslint no-var:0, prefer-arrow-callback: 0, object-shorthand: 0 */
 'use strict';
 
-
-var testData = module.exports = [];
+var global = typeof module === 'undefined' ? {} : module;
+var testData = global.exports = [];
 
 var checkPublicSuffix = function (value, expected) {
 
