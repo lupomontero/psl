@@ -1,11 +1,13 @@
 {
-  "rules": {
-    "indent": [ 2, 2 ],
-    "padding-line-between-statements": "off",
-    "hapi/hapi-no-var": "off"
-  },
-  "extends": "hapi",
   "env": {
+    "es2020": true,
+    "node": true,
     "mocha": true
+  },
+  "rules": {
+    "indent": [
+      2,
+      2
+    ]
   }
 }
