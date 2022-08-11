@@ -25,6 +25,7 @@
   "author": "Lupo Montero <lupomontero@gmail.com> (https://lupomontero.com/)",
   "license": "MIT",
   "devDependencies": {
+    "benchmark": "^2.1.4",
     "browserify": "^17.0.0",
     "browserslist-browserstack": "^3.1.1",
     "browserstack-local": "^1.5.1",

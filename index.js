@@ -4,7 +4,6 @@
 
 var Punycode = require('punycode');
 
-
 var internals = {};
 
 
@@ -12,16 +11,21 @@ var internals = {};
 // Read rules from file.
 //
 internals.rules = require('./data/rules.json').map(function (rule) {
-
+  const suffix = rule.replace(/^(\*\.|\!)/, '');
   return {
     rule: rule,
-    suffix: rule.replace(/^(\*\.|\!)/, ''),
-    punySuffix: -1,
+    suffix,
+    punySuffix: Punycode.toASCII(suffix),
     wildcard: rule.charAt(0) === '*',
     exception: rule.charAt(0) === '!'
   };
 });
 
+internals.rulesBySuffix = new Map();
+for (var rule of internals.rules) {
+  var existingRules = internals.rulesBySuffix.get(rule.punySuffix);
+  internals.rulesBySuffix.set(rule.punySuffix, existingRules ? existingRules.concat(rule) : [rule]);
+}
 
 //
 // Check if given string ends with `suffix`.
@@ -31,6 +35,12 @@ internals.endsWith = function (str, suffix) {
   return str.indexOf(suffix, str.length - suffix.length) !== -1;
 };
 
+//
+// ASCII string reverse function
+//
+internals.reverse = function (str) {
+  return str.split("").reverse().join("")
+}
 
 //
 // Find rule for a given domain.
@@ -38,11 +48,19 @@ internals.endsWith = function (str, suffix) {
 internals.findRule = function (domain) {
 
   var punyDomain = Punycode.toASCII(domain);
-  return internals.rules.reduce(function (memo, rule) {
-
-    if (rule.punySuffix === -1) {
-      rule.punySuffix = Punycode.toASCII(rule.suffix);
+  var punyDomainChunks = punyDomain.split('.');
+  var matchingRules;
+  for (var i = 0; i < punyDomainChunks.length; i++) {
+    var suffix = punyDomainChunks.slice(i).join('.');
+    var matchingRules = internals.rulesBySuffix.get(suffix);
+    if (matchingRules) {
+      break;
     }
+  }
+  if (!matchingRules) {
+    return null;
+  }
+  return matchingRules.reduce(function (memo, rule) {
     if (!internals.endsWith(punyDomain, '.' + rule.punySuffix) && punyDomain !== rule.punySuffix) {
       return memo;
     }
@@ -208,6 +226,7 @@ exports.parse = function (input) {
     if (domainParts.length) {
       parsed.subdomain = domainParts.pop();
     }
+    
     return handlePunycode();
   }
 
