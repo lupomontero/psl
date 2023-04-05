@@ -1,43 +1,28 @@
 #! /usr/bin/env node
 
-
-'use strict';
-
-//
 // Deps
-//
-const Fs = require('fs');
-const Path = require('path');
-const { Transform } = require('stream');
-const Request = require('request');
-const JSONStream = require('JSONStream');
+import fs from 'node:fs'
 
+//Download URL and path to rules.json file.
+const src = 'https://publicsuffix.org/list/effective_tld_names.dat'
+const dest = new URL('../data/rules.json', import.meta.url).pathname
 
-const internals = {};
+/**
+ * Parse line (trim and ignore empty lines and comments).
+ *
+ * @param {string} line
+ */
+function parseLine (line) {
 
-
-//
-// Download URL and path to rules.json file.
-//
-internals.src = 'https://publicsuffix.org/list/effective_tld_names.dat';
-internals.dest = Path.join(__dirname, '../data/rules.json');
-
-
-//
-// Parse line (trim and ignore empty lines and comments).
-//
-internals.parseLine = function (line) {
-
-  const trimmed = line.trim();
+  line = line.trim()
 
   // Ignore empty lines and comments.
-  if (!trimmed || (trimmed.charAt(0) === '/' && trimmed.charAt(1) === '/')) {
-    return;
+  if (!line || line.startsWith('//')) {
+    return
   }
 
   // Only read up to first whitespace char.
-  const rule = trimmed.split(' ')[0];
-  return rule;
+  return line.split(' ')[0]
 
   // const item = [rule];
   //
@@ -62,42 +47,11 @@ internals.parseLine = function (line) {
   // }
   //
   // cb(null, item);
-};
+}
 
 
-internals.parse = new Transform({
-  objectMode: true,
-  transform(chunk, encoding, cb) {
-    if (this._last === undefined) {
-      this._last = '';
-    }
-
-    this._last += `${chunk}`;
-    const list = this._last.split(/\n/);
-    this._last = list.pop();
-
-    for (let i = 0; i < list.length; i++) {
-      const parsed = internals.parseLine(list[i]);
-      if (parsed) {
-        this.push(parsed);
-      }
-    }
-
-    cb();
-  },
-  flush(cb) {
-    if (this._last) {
-      this.push(this._last);
-    }
-    cb();
-  }
-});
-
-
-//
 // Download rules and create rules.json file.
-//
-Request(internals.src)
-  .pipe(internals.parse)
-  .pipe(JSONStream.stringify('[\n', ',\n', '\n]'))
-  .pipe(Fs.createWriteStream(internals.dest));
+const res = await fetch(src)
+const body = await res.text()
+const rules = body.split('\n').map(parseLine).filter(Boolean)
+fs.writeFileSync(dest, JSON.stringify(rules, null, '\t').replaceAll('\t', ''))
