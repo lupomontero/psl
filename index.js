@@ -196,7 +196,6 @@ export const parse = (input) => {
   // At this point we know the public suffix is listed.
   parsed.listed = true;
   parsed.icann = rule.icann;
-  // console.log({rule})
 
   const tldParts = rule.suffix.split('.');
   const privateParts = domainParts.slice(0, domainParts.length - tldParts.length);

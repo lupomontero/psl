@@ -7,6 +7,7 @@ import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+const END_ICANN_REGION = '// ===END ICANN DOMAINS===';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 //
@@ -25,8 +26,7 @@ const parseLine = (line) => {
 
   // Ignore empty lines and comments.
   if (!trimmed || (trimmed.charAt(0) === '/' && trimmed.charAt(1) === '/')) {
-    // console.log('ignoring line', trimmed);
-    if (trimmed === '// ===END ICANN DOMAINS===') {
+    if (trimmed === END_ICANN_REGION) {
       global.inIcannRegion = false;
     }
     return;
