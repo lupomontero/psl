@@ -176,6 +176,7 @@ describe('psl.parse()', function () {
     Assert.equal(parsed.domain, null);
     Assert.equal(parsed.subdomain, null);
     Assert.equal(parsed.listed, true);
+    Assert.equal(parsed.icann, true);
   });
 
   it('should parse github.io', function () {
@@ -186,6 +187,18 @@ describe('psl.parse()', function () {
     Assert.equal(parsed.domain, null);
     Assert.equal(parsed.subdomain, null);
     Assert.equal(parsed.listed, true);
+    Assert.equal(parsed.icann, false);
+  });
+
+  it('should parse ampliandoapps.blogspot.com as icann=false', function () {
+
+    var parsed = Psl.parse('ampliandoapps.blogspot.com');
+    Assert.equal(parsed.tld, 'blogspot.com');
+    Assert.equal(parsed.sld, 'ampliandoapps');
+    Assert.equal(parsed.domain, 'ampliandoapps.blogspot.com');
+    Assert.equal(parsed.subdomain, null);
+    Assert.equal(parsed.listed, true);
+    Assert.equal(parsed.icann, false);
   });
 
 });

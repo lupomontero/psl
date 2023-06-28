@@ -26,18 +26,24 @@ internals.dest = Path.join(__dirname, '../data/rules.json');
 //
 // Parse line (trim and ignore empty lines and comments).
 //
+global.inIcannRegion = true;
+
 internals.parseLine = function (line) {
 
   const trimmed = line.trim();
 
   // Ignore empty lines and comments.
   if (!trimmed || (trimmed.charAt(0) === '/' && trimmed.charAt(1) === '/')) {
+    // console.log('ignoring line', trimmed);
+    if (trimmed === '// ===END ICANN DOMAINS===') {
+      global.inIcannRegion = false;
+    }
     return;
   }
 
   // Only read up to first whitespace char.
   const rule = trimmed.split(' ')[0];
-  return rule;
+  return [rule, (global.inIcannRegion) ? true : false];
 
   // const item = [rule];
   //
