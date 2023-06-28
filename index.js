@@ -5,7 +5,7 @@ import rules from './data/rules.js';
 // Parse rules from file.
 //
 const rulesByPunySuffix = rules.reduce(
-  (map, rule) => {
+  (map, [rule, icann]) => {
     const suffix = rule.replace(/^(\*\.|\!)/, '');
     const punySuffix = punycode.toASCII(suffix);
     const firstChar = rule.charAt(0);
@@ -19,7 +19,8 @@ const rulesByPunySuffix = rules.reduce(
       suffix,
       punySuffix,
       wildcard: firstChar === '*',
-      exception: firstChar === '!'
+      exception: firstChar === '!',
+      icann,
     });
 
     return map;
@@ -151,7 +152,8 @@ export const parse = (input) => {
     sld: null,
     domain: null,
     subdomain: null,
-    listed: false
+    listed: false,
+    icann: false
   };
 
   const domainParts = domain.split('.');
@@ -193,6 +195,8 @@ export const parse = (input) => {
 
   // At this point we know the public suffix is listed.
   parsed.listed = true;
+  parsed.icann = rule.icann;
+  // console.log({rule})
 
   const tldParts = rule.suffix.split('.');
   const privateParts = domainParts.slice(0, domainParts.length - tldParts.length);
