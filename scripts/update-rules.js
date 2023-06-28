@@ -13,6 +13,7 @@ const Request = require('request');
 const JSONStream = require('JSONStream');
 
 
+const END_ICANN_REGION = '// ===END ICANN DOMAINS===';
 const internals = {};
 
 
@@ -34,8 +35,7 @@ internals.parseLine = function (line) {
 
   // Ignore empty lines and comments.
   if (!trimmed || (trimmed.charAt(0) === '/' && trimmed.charAt(1) === '/')) {
-    // console.log('ignoring line', trimmed);
-    if (trimmed === '// ===END ICANN DOMAINS===') {
+    if (trimmed === END_ICANN_REGION) {
       global.inIcannRegion = false;
     }
     return;

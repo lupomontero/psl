@@ -12,7 +12,6 @@ var internals = {};
 // Read rules from file.
 //
 internals.rules = require('./data/rules.json').map(function ([rule, isIcann]) {
-  // console.log({rule, isIcann});
   return {
     rule: rule,
     suffix: rule.replace(/^(\*\.|\!)/, ''),
@@ -216,7 +215,6 @@ exports.parse = function (input) {
   // At this point we know the public suffix is listed.
   parsed.listed = true;
   parsed.icann = rule.icann;
-  // console.log({rule})
 
   var tldParts = rule.suffix.split('.');
   var privateParts = domainParts.slice(0, domainParts.length - tldParts.length);
