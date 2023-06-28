@@ -11,14 +11,14 @@ var internals = {};
 //
 // Read rules from file.
 //
-internals.rules = require('./data/rules.json').map(function (rule) {
-
+internals.rules = require('./data/rules.json').map(function ([rule, isIcann]) {
   return {
     rule: rule,
     suffix: rule.replace(/^(\*\.|\!)/, ''),
     punySuffix: -1,
     wildcard: rule.charAt(0) === '*',
-    exception: rule.charAt(0) === '!'
+    exception: rule.charAt(0) === '!',
+    icann: isIcann
   };
 });
 
@@ -171,7 +171,8 @@ exports.parse = function (input) {
     sld: null,
     domain: null,
     subdomain: null,
-    listed: false
+    listed: false,
+    icann: false
   };
 
   var domainParts = domain.split('.');
@@ -213,6 +214,7 @@ exports.parse = function (input) {
 
   // At this point we know the public suffix is listed.
   parsed.listed = true;
+  parsed.icann = rule.icann;
 
   var tldParts = rule.suffix.split('.');
   var privateParts = domainParts.slice(0, domainParts.length - tldParts.length);
