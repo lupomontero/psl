@@ -2,7 +2,7 @@
 'use strict';
 
 
-var Punycode = require('punycode');
+var Punycode = require('punycode/');
 
 
 var internals = {};
