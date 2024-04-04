@@ -9,6 +9,7 @@
 const Fs = require('fs');
 const Path = require('path');
 const { Transform } = require('stream');
+const split2 = require('split2');
 const Request = require('request');
 const JSONStream = require('JSONStream');
 
@@ -67,30 +68,15 @@ internals.parseLine = function (line) {
 
 internals.parse = new Transform({
   objectMode: true,
-  transform(chunk, encoding, cb) {
-    if (this._last === undefined) {
-      this._last = '';
-    }
+  transform(line, encoding, cb) {
+    const parsed = internals.parseLine(line);
 
-    this._last += `${chunk}`;
-    const list = this._last.split(/\n/);
-    this._last = list.pop();
-
-    for (let i = 0; i < list.length; i++) {
-      const parsed = internals.parseLine(list[i]);
-      if (parsed) {
-        this.push(parsed);
-      }
+    if (parsed) {
+      this.push(parsed);
     }
 
     cb();
   },
-  flush(cb) {
-    if (this._last) {
-      this.push(this._last);
-    }
-    cb();
-  }
 });
 
 
@@ -98,6 +84,7 @@ internals.parse = new Transform({
 // Download rules and create rules.json file.
 //
 Request(internals.src)
+  .pipe(split2())
   .pipe(internals.parse)
   .pipe(JSONStream.stringify('[\n', ',\n', '\n]'))
   .pipe(Fs.createWriteStream(internals.dest));

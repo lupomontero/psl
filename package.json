@@ -41,6 +41,7 @@
     "selenium-webdriver": "^4.16.0",
     "serve-handler": "^6.1.5",
     "uglify-js": "^3.17.4",
-    "watchify": "^4.0.0"
+    "watchify": "^4.0.0",
+    "split2": "^4.2.0"
   }
 }
