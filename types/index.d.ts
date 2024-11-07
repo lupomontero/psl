@@ -3,12 +3,12 @@
 /**
  * Result returned when a given domain name was not parsable (not exported)
  */
-export interface ErrorResult<T extends keyof errorCodes> {
-	input: string;
-	error: {
-		error: T;
-		message: errorCodes[T];
-	};
+export type ErrorResult<T extends keyof errorCodes> = {
+  input: string;
+  error: {
+    code: T;
+    message: errorCodes[T];
+  };
 }
 
 
