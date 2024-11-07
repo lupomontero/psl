@@ -29,19 +29,19 @@ export const enum errorCodes {
 // Export the browser global variable name additionally to the CJS/AMD exports below
 export as namespace psl;
 
+export type ParsedDomain = {
+  input: string;
+  tld: string | null;
+  sld: string | null;
+  domain: string | null;
+  subdomain: string | null;
+  listed: boolean;
+}
 
 /**
  * Parse a domain name and return its components
  */
-export function parse(input: string): {
-	input: string,
-	tld: string|null,
-	sld: string|null,
-	domain: string|null,
-	subdomain: string|null,
-	listed: boolean
-} | ErrorResult<keyof errorCodes>;
-
+export function parse(input: string): ParsedDomain | ErrorResult<keyof errorCodes>;
 
 /**
  * Get the base domain for full domain name
