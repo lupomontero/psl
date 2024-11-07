@@ -1,7 +1,14 @@
-import * as psl from "psl";
+import * as psl from 'psl';
+import type { ParsedDomain, ErrorResult, errorCodes } from './index.d.ts';
+
+const x = (a: ParsedDomain | ErrorResult<keyof errorCodes>) => {
+  return a;
+};
+
+console.log(x(psl.parse('')));
 
 // $ExpectType string | null
-psl.get("example.com");
+console.log(psl.get('example.com'));
 
 // $ExpectType boolean
-psl.isValid("example.com");
+console.log(psl.isValid('example.com'));
