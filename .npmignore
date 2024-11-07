@@ -3,6 +3,9 @@ examples/
 scripts/
 test/
 .env
-.eslintignore
-.eslintrc
-.travis.yml
+eslint.config.js
+*.log
+browserstack.yml
+playwright.config.js
+test-results/
+log/
