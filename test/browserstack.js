@@ -1,118 +1,57 @@
-const http = require('http');
-const browserstack = require('browserstack-local');
-const webdriver = require('selenium-webdriver');
-const handler = require('serve-handler');
-const { default: getCapabilities } = require('browserslist-browserstack');
+const fs = require('fs/promises');
+const path = require('path');
+const { expect, test, beforeEach } = require('@playwright/test');
+const testData = require('./data');
 
-const { BROWSERSTACK_USER, BROWSERSTACK_KEY } = process.env;
+const scriptPath = path.resolve(__dirname, '../dist/psl.js');
 
-const BUILD = `browserstack-build-${Date.now()}`;
-const PORT = 3000;
-const url = `http://localhost:${PORT}/test/index.html`;
-
-const bsConfig = {
-  'project': 'psl',
-  'browserstack.local': 'true',
-  'browserstack.user': BROWSERSTACK_USER,
-  'browserstack.key': BROWSERSTACK_KEY,
-  'build': BUILD,
-  'name': 'Mocha test suite in browser',
-  'browserstack.debug': 'true',
-  'browserstack.console': 'info',
-  'browserstack.networkLogs': 'true',
-};
-
-const testBrowser = async (capabilities) => {
-  const driver = new webdriver.Builder()
-    .usingServer('http://hub-cloud.browserstack.com/wd/hub')
-    .withCapabilities({
-      ...bsConfig,
-      ...capabilities,
-      // Because NodeJS language binding requires browserName to be defined
-      ...(capabilities['browser'] && {
-        browserName: capabilities['browser'],
-      }),
-    })
-    .build();
-
-  await driver.get(url);
-  await driver.wait(webdriver.until.elementLocated(webdriver.By.id('results')));
-
-  const results = await driver.executeScript(function () {
-    return window.results;
+beforeEach(async ({ page }) => {
+  await page.addScriptTag({
+    content: await fs.readFile(scriptPath, 'utf8'),
   });
-
-  const setSessionStatusAction = `browserstack_executor: ${JSON.stringify({
-    action: 'setSessionStatus',
-    arguments: (
-      results.failures
-        ? {
-          status: 'failed',
-          reason: `${results.failures} tests failed`,
-        }
-        : {
-          status: 'passed',
-          reason: `${results.total} tests passed`,
-        }
-    ),
-  })}`;
-
-  await driver.executeScript(setSessionStatusAction);
-  await driver.quit();
-
-  return results;
-};
-
-const main = () => new Promise(async (resolve, reject) => {
-  try {
-    const { createStream } = await import('porch');
-    const server = http.createServer(handler).listen(PORT);
-    const bsLocal = new browserstack.Local();
-    const capabilities = await getCapabilities({
-      username: BROWSERSTACK_USER,
-      accessKey: BROWSERSTACK_KEY,
-      browserslist: {
-        queries: ['defaults'],
-      },
-    });
-
-    bsLocal.start({ key: BROWSERSTACK_KEY }, (err) => {
-      if (err) {
-        return reject(err);
-      }
-
-      let failures = 0;
-
-      createStream(capabilities.map(cap => () => testBrowser(cap)), 5, 0, false)
-        .on('data', ({ result, idx }) => {
-          failures += result.failures;
-          console.log(
-            capabilities[idx].browser,
-            capabilities[idx].browserVersion,
-            capabilities[idx].os,
-            capabilities[idx].os_version,
-            result.failures
-              ? `❌ ${result.failures}! tests failed`
-              : `✔️ ${result.total} tests passed in ${result.stats.duration}ms`,
-          );
-        })
-        .on('end', () => {
-          bsLocal.stop(() => {
-            server.close(() => resolve(failures));
-          });
-        });
-    });
-  } catch (err) {
-    reject(err);
-  }
 });
 
-main()
-  .then((failures) => {
-    console.log(`\n${failures} failures in total`);
-    process.exit(failures);
-  })
-  .catch((err) => {
-    console.error(err);
-    process.exit(-1);
+test('psl.get() [Mozilla Data]', async ({ page }) => {
+  const results = await page.evaluate(
+    mozData => mozData.map(({ value, expected }) => ({
+      value,
+      expected,
+      actual: window.psl.get(value),
+    })),
+    testData.mozilla,
+  );
+
+  results.forEach(({ value, expected, actual }) => {
+    expect(actual).toBe(expected, `psl.get(${value}) should return ${expected}`);
   });
+});
+
+test('psl.isValid()', async ({ page }) => {
+  const results = await page.evaluate(
+    testData => testData.map(({ value, expected }) => ({
+      value,
+      expected,
+      actual: window.psl.isValid(value),
+    })),
+    testData.isValid,
+  );
+
+  results.forEach(({ value, expected, actual }) => {
+    expect(actual).toBe(expected, `psl.isValid(${value}) should return ${expected}`);
+  });
+});
+
+test('psl.parse()', async ({ page }) => {
+  const results = await page.evaluate(
+    testData => testData.map(({ value, expected }) => ({
+      value,
+      expected,
+      actual: window.psl.parse(value),
+    })),
+    testData.parse,
+  );
+
+  results.forEach(({ value, expected, actual }) => {
+    expect(actual).toStrictEqual(expected, `psl.parse(${value}) should return ${expected}`);
+  });
+});

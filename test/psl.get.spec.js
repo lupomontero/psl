@@ -4,7 +4,7 @@
 
 var Assert = require('assert');
 var Psl = require('../');
-var Data = require('./mozilla-data');
+var Data = require('./data/mozilla');
 
 
 describe('psl.get()', function () {
