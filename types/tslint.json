@@ -1,8 +1,0 @@
-{
-	"extends": "dtslint/dtslint.json",
-	"rules": {
-		"no-consecutive-blank-lines": false,
-		"no-implicit-dependencies": false,
-		"indent": [true, "tabs"]
-	}
-}
