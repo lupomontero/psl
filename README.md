@@ -167,14 +167,10 @@ Test are written using [`mocha`](https://mochajs.org/) and can be
 run in two different environments: `node` and `phantomjs`.
 
 ```sh
-# This will run `eslint`, `mocha` and `karma`.
+# Run tests in node.
 npm test
-
-# Individual test environments
-# Run tests in node only.
-./node_modules/.bin/mocha test
-# Run tests in phantomjs only.
-./node_modules/.bin/karma start ./karma.conf.js --single-run
+# Run tests in browserstack.
+npm run test:browserstack
 
 # Build data (parse raw list) and create dist files
 npm run build
