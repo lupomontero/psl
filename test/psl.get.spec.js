@@ -1,22 +1,11 @@
-/*eslint no-var:0, prefer-arrow-callback: 0 */
-'use strict';
+import assert from 'assert';
+import psl from '../index.js';
+import mozData from './data/mozilla.js';
 
-
-var Assert = require('assert');
-var Psl = require('../');
-var Data = require('./data/mozilla');
-
-
-describe('psl.get()', function () {
-
-  Data.forEach(function (item) {
-
-    it('psl.get(' + item.value + ') should return ' + item.expected, function () {
-
-      Assert.equal(Psl.get(item.value), item.expected);
+describe('psl.get()', () => {
+  mozData.forEach((item) => {
+    it('psl.get(' + item.value + ') should return ' + item.expected, () => {
+      assert.equal(psl.get(item.value), item.expected);
     });
-
   });
-
 });
-

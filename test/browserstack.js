@@ -1,11 +1,13 @@
-const fs = require('fs/promises');
-const path = require('path');
-const { expect, test, beforeEach } = require('@playwright/test');
-const testData = require('./data');
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { expect, test } from '@playwright/test';
+import testData from './data/index.js';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const scriptPath = path.resolve(__dirname, '../dist/psl.js');
 
-beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page }) => {
   await page.addScriptTag({
     content: await fs.readFile(scriptPath, 'utf8'),
   });

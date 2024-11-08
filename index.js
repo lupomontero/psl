@@ -1,17 +1,14 @@
-/*eslint no-var:0, prefer-arrow-callback: 0, object-shorthand: 0 */
-'use strict';
-
-
-var Punycode = require('punycode/');
+import Punycode from 'punycode';
+import rules from './data/rules.js';
 
 
 var internals = {};
 
 
 //
-// Read rules from file.
+// Parse rules from file.
 //
-internals.rules = require('./data/rules.json').map(function (rule) {
+internals.rules = rules.map(function (rule) {
 
   return {
     rule: rule,
@@ -63,7 +60,7 @@ internals.findRule = function (domain) {
 //
 // Error codes and messages.
 //
-exports.errorCodes = {
+export const errorCodes = {
   DOMAIN_TOO_SHORT: 'Domain name too short.',
   DOMAIN_TOO_LONG: 'Domain name too long. It should be no more than 255 chars.',
   LABEL_STARTS_WITH_DASH: 'Domain name label can not start with a dash.',
@@ -138,7 +135,7 @@ internals.validate = function (input) {
 //
 // Parse domain.
 //
-exports.parse = function (input) {
+export const parse = function (input) {
 
   if (typeof input !== 'string') {
     throw new TypeError('Domain name must be a string.');
@@ -159,7 +156,7 @@ exports.parse = function (input) {
     return {
       input: input,
       error: {
-        message: exports.errorCodes[error],
+        message: errorCodes[error],
         code: error
       }
     };
@@ -250,20 +247,22 @@ exports.parse = function (input) {
 //
 // Get domain.
 //
-exports.get = function (domain) {
+export const get = function (domain) {
 
   if (!domain) {
     return null;
   }
-  return exports.parse(domain).domain || null;
+  return parse(domain).domain || null;
 };
 
 
 //
 // Check whether domain belongs to a known public suffix.
 //
-exports.isValid = function (domain) {
+export const isValid = function (domain) {
 
-  var parsed = exports.parse(domain);
+  var parsed = parse(domain);
   return Boolean(parsed.domain && parsed.listed);
 };
+
+export default { parse, get, isValid };
