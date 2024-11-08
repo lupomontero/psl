@@ -3,30 +3,22 @@
 //
 // Deps
 //
-import Fs from 'node:fs';
-import Path from 'node:path';
-import { Transform } from 'node:stream';
+import { writeFile } from 'node:fs/promises';
+import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import Request from 'request';
-import JSONStream from 'JSONStream';
 
-
-const __dirname = Path.dirname(fileURLToPath(import.meta.url));
-const internals = {};
-
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 //
-// Download URL and path to rules.json file.
+// Download URL and path to rules.js file.
 //
-internals.src = 'https://publicsuffix.org/list/effective_tld_names.dat';
-internals.dest = Path.join(__dirname, '../data/rules.js');
-
+const src = 'https://publicsuffix.org/list/effective_tld_names.dat';
+const dest = path.join(__dirname, '../data/rules.js');
 
 //
 // Parse line (trim and ignore empty lines and comments).
 //
-internals.parseLine = function (line) {
-
+const parseLine = (line) => {
   const trimmed = line.trim();
 
   // Ignore empty lines and comments.
@@ -63,44 +55,24 @@ internals.parseLine = function (line) {
   // cb(null, item);
 };
 
-
-internals.parse = new Transform({
-  objectMode: true,
-  transform(chunk, encoding, cb) {
-    if (this._last === undefined) {
-      this._last = '';
-    }
-
-    this._last += `${chunk}`;
-    const list = this._last.split(/\n/);
-    this._last = list.pop();
-
-    for (let i = 0; i < list.length; i++) {
-      const parsed = internals.parseLine(list[i]);
-      if (parsed) {
-        this.push(parsed);
-      }
-    }
-
-    cb();
-  },
-  flush(cb) {
-    if (this._last) {
-      this.push(this._last);
-    }
-    cb();
-  }
-});
-
-
 //
-// Download rules and create rules.json file.
+// Download rules and create rules.js file.
 //
-const ws = Fs.createWriteStream(internals.dest);
-
-ws.write('export default ');
-
-Request(internals.src)
-  .pipe(internals.parse)
-  .pipe(JSONStream.stringify('[\n', ',\n', '\n]'))
-  .pipe(ws);
+fetch(src)
+  .then(response => response.text())
+  .then(text => text.split('\n').reduce(
+    (memo, line) => {
+      const parsed = parseLine(line);
+      return (
+        !parsed
+          ? memo
+          : memo.concat(parsed)
+      );
+    },
+    [],
+  ))
+  .then(rules => writeFile(dest, `export default ${JSON.stringify(rules)};`))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
