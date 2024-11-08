@@ -1,18 +1,17 @@
 #! /usr/bin/env node
 
-
-'use strict';
-
 //
 // Deps
 //
-const Fs = require('fs');
-const Path = require('path');
-const { Transform } = require('stream');
-const Request = require('request');
-const JSONStream = require('JSONStream');
+import Fs from 'node:fs';
+import Path from 'node:path';
+import { Transform } from 'node:stream';
+import { fileURLToPath } from 'node:url';
+import Request from 'request';
+import JSONStream from 'JSONStream';
 
 
+const __dirname = Path.dirname(fileURLToPath(import.meta.url));
 const internals = {};
 
 
@@ -20,7 +19,7 @@ const internals = {};
 // Download URL and path to rules.json file.
 //
 internals.src = 'https://publicsuffix.org/list/effective_tld_names.dat';
-internals.dest = Path.join(__dirname, '../data/rules.json');
+internals.dest = Path.join(__dirname, '../data/rules.js');
 
 
 //
@@ -97,7 +96,11 @@ internals.parse = new Transform({
 //
 // Download rules and create rules.json file.
 //
+const ws = Fs.createWriteStream(internals.dest);
+
+ws.write('export default ');
+
 Request(internals.src)
   .pipe(internals.parse)
   .pipe(JSONStream.stringify('[\n', ',\n', '\n]'))
-  .pipe(Fs.createWriteStream(internals.dest));
+  .pipe(ws);

@@ -6,7 +6,8 @@
     "type": "git",
     "url": "git@github.com:lupomontero/psl.git"
   },
-  "main": "index.js",
+  "type": "module",
+  "exports": "./index.js",
   "types": "types/index.d.ts",
   "scripts": {
     "lint": "eslint .",

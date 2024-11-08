@@ -1,15 +1,10 @@
 /*eslint no-var:0, prefer-arrow-callback: 0, object-shorthand: 0 */
-'use strict';
 
-var global = typeof module === 'undefined' ? {} : module;
-var testData = global.exports = [];
+const testData = [];
 
-var checkPublicSuffix = function (value, expected) {
-
-  testData.push({ value: value, expected: expected });
+const checkPublicSuffix = (value, expected) => {
+  testData.push({ value, expected });
 };
-
-
 
 // Test data taken from
 // http://mxr.mozilla.org/mozilla-central/source/netwerk/test/unit/data/test_psl.txt?raw=1
@@ -107,3 +102,5 @@ checkPublicSuffix('xn--85x722f.xn--fiqs8s', 'xn--85x722f.xn--fiqs8s');
 checkPublicSuffix('www.xn--85x722f.xn--fiqs8s', 'xn--85x722f.xn--fiqs8s');
 checkPublicSuffix('shishi.xn--fiqs8s', 'shishi.xn--fiqs8s');
 checkPublicSuffix('xn--fiqs8s', null);
+
+export default testData;

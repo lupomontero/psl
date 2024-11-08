@@ -1,9 +1,9 @@
 // @ts-check
 
-const eslint = require('@eslint/js');
-const tseslint = require('typescript-eslint');
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
 
-module.exports = tseslint.config(
+export default tseslint.config(
   {
     ...eslint.configs.recommended,
     languageOptions: {
@@ -15,11 +15,6 @@ module.exports = tseslint.config(
   },
   ...tseslint.configs.recommended,
   {
-    ignores: ['dist/*'],
+    ignores: ['dist/*', 'data/*'],
   },
-  {
-    rules: {
-      '@typescript-eslint/no-require-imports': 0,
-    },
-  }
 );

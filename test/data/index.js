@@ -1,8 +1,8 @@
-const mozilla = require('./mozilla');
-const isValid = require('./is-valid');
-const parse = require('./parse');
+import mozilla from './mozilla.js';
+import isValid from './is-valid.js';
+import parse from './parse.js';
 
-module.exports = {
+export default {
   mozilla,
   isValid,
   parse,
