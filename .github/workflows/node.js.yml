@@ -21,6 +21,23 @@ jobs:
       - run: npm ci
       - run: npm test
 
+  test-node-legacy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12, 14, 16]
+    defaults:
+      run:
+        working-directory: ./test/node-legacy
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+      - run: npm i
+      - run: npm test
+
   test_browser:
     runs-on: ubuntu-latest
     steps:
