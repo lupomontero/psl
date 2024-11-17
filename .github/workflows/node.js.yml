@@ -21,7 +21,7 @@ jobs:
       - run: npm ci
       - run: npm test
 
-  test_node_legacy_cjs_conditional_exports:
+  test_node_legacy:
     runs-on: ubuntu-latest
     strategy:
       matrix:
