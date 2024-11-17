@@ -30,29 +30,73 @@ Source: http://publicsuffix.org
 
 ## Installation
 
+This module is available both for Node.js and the browser. See below for more
+details.
+
 ### Node.js
 
 ```sh
-npm install --save psl
+npm install psl
+```
+
+#### ESM
+
+From version `v1.11.0` you can now import `psl` as ESM.
+
+```js
+import psl from 'psl';
+```
+
+#### CommonJS
+
+If your project still uses CommonJS on Node.js v12 or later (with support for
+conditional exports), you can continue importing the module like in previous
+versions.
+
+```js
+const psl = require('psl');
+```
+
+⚠️ If you are using Node.js v10 or older (😰), you can still use the latest
+version of this module, but you will need to import the bundled UMD.
+
+```js
+var psl = require('psl/dist/psl.umd.cjs');
 ```
 
 ### Browser
 
-Download [psl.min.js](https://raw.githubusercontent.com/lupomontero/psl/main/dist/psl.min.js)
+#### Using a bundler
+
+If you are using a bundler to build your spp, you should be able to `import`
+and/or `require` the module just like in Node.js.
+
+#### ESM (using a CDN)
+
+In modern browsers you can also import the ESM directly from a `CDN`. For
+example:
+
+```js
+import psl from 'https://unpkg.com/psl@latest/dist/psl.mjs';
+```
+
+#### UMD / CommonJS
+
+Finally, you can still download [`dist/psl.umd.cjs`](https://raw.githubusercontent.com/lupomontero/psl/main/dist/psl.umd.cjs)
 and include it in a script tag.
 
 ```html
-<script src="psl.min.js"></script>
+<script src="psl.umd.cjs"></script>
 ```
 
-This script is browserified and wrapped in a [umd](https://github.com/umdjs/umd)
+This script is bundled and wrapped in a [umd](https://github.com/umdjs/umd)
 wrapper so you should be able to use it standalone or together with a module
 loader.
 
 The script is also available on most popular CDNs. For example:
 
-* https://cdnjs.cloudflare.com/ajax/libs/psl/1.9.0/psl.min.js
-* https://unpkg.com/psl@1.9.0/dist/psl.min.js
+* https://cdnjs.cloudflare.com/ajax/libs/psl/latest/psl.min.js
+* https://unpkg.com/psl@latest/dist/psl.min.js
 
 ## API
 
@@ -66,27 +110,38 @@ properties:
 * `domain`: The domain name is the `sld` + `tld`.
 * `subdomain`: Optional parts left of the domain.
 
-#### Example:
+#### Examples
+
+Parse domain without subdomain:
 
 ```js
-var psl = require('psl');
+import psl from 'psl';
 
-// Parse domain without subdomain
-var parsed = psl.parse('google.com');
+const parsed = psl.parse('google.com');
 console.log(parsed.tld); // 'com'
 console.log(parsed.sld); // 'google'
 console.log(parsed.domain); // 'google.com'
 console.log(parsed.subdomain); // null
+```
 
-// Parse domain with subdomain
-var parsed = psl.parse('www.google.com');
+Parse domain with subdomain:
+
+```js
+import psl from 'psl';
+
+const parsed = psl.parse('www.google.com');
 console.log(parsed.tld); // 'com'
 console.log(parsed.sld); // 'google'
 console.log(parsed.domain); // 'google.com'
 console.log(parsed.subdomain); // 'www'
+```
 
-// Parse domain with nested subdomains
-var parsed = psl.parse('a.b.c.d.foo.com');
+Parse domain with nested subdomains:
+
+```js
+import psl from 'psl';
+
+const parsed = psl.parse('a.b.c.d.foo.com');
 console.log(parsed.tld); // 'com'
 console.log(parsed.sld); // 'foo'
 console.log(parsed.domain); // 'foo.com'
@@ -97,10 +152,10 @@ console.log(parsed.subdomain); // 'a.b.c.d'
 
 Get domain name, `sld` + `tld`. Returns `null` if not valid.
 
-#### Example:
+#### Examples
 
 ```js
-var psl = require('psl');
+import psl from 'psl';
 
 // null input.
 psl.get(null); // null
@@ -153,7 +208,7 @@ whether the domain has a valid Public Suffix.
 #### Example
 
 ```js
-var psl = require('psl');
+import psl from 'psl';
 
 psl.isValid('google.com'); // true
 psl.isValid('www.google.com'); // true
