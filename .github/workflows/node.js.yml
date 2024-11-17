@@ -21,14 +21,31 @@ jobs:
       - run: npm ci
       - run: npm test
 
-  test_node_legacy:
+  test_node_legacy_cjs_conditional_exports:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10, 12, 14, 16]
+        node-version: [12, 14, 16]
     defaults:
       run:
         working-directory: ./test/node-legacy
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+      - run: npm i
+      - run: npm test
+
+  test_node_legacy_umd:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10]
+    defaults:
+      run:
+        working-directory: ./test/node-legacy-umd
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
