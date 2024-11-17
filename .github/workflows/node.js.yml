@@ -21,11 +21,11 @@ jobs:
       - run: npm ci
       - run: npm test
 
-  test-node-legacy:
+  test_node_legacy:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12, 14, 16]
+        node-version: [10, 12, 14, 16]
     defaults:
       run:
         working-directory: ./test/node-legacy
