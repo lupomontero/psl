@@ -190,4 +190,15 @@ export default [
       listed: true,
     },
   },
+  {
+    value: 'testing.com.in',
+    expected: {
+      input: 'testing.com.in',
+      tld: 'com.in',
+      sld: 'testing',
+      domain: 'testing.com.in',
+      subdomain: null,
+      listed: true,
+    },
+  },
 ];
