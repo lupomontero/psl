@@ -215,11 +215,10 @@ psl.isValid('www.google.com'); // true
 psl.isValid('x.yz'); // false
 ```
 
-
 ## Testing and Building
 
-Test are written using [`mocha`](https://mochajs.org/) and can be
-run in two different environments: `node` and `phantomjs`.
+There are tests both for Node.js and the browser (using [Playwright](https://playwright.dev)
+and [BrowserStack](https://www.browserstack.com/)).
 
 ```sh
 # Run tests in node.
@@ -227,12 +226,14 @@ npm test
 # Run tests in browserstack.
 npm run test:browserstack
 
-# Build data (parse raw list) and create dist files
+# Update rules from publicsuffix.org
+npm run update-rules
+
+# Build ESM, CJS and UMD and create dist files
 npm run build
 ```
 
 Feel free to fork if you see possible improvements!
-
 
 ## Acknowledgements
 
@@ -240,7 +241,6 @@ Feel free to fork if you see possible improvements!
 * Thanks to Rob Stradling of [Comodo](https://www.comodo.com/) for providing
   test data.
 * Inspired by [weppos/publicsuffix-ruby](https://github.com/weppos/publicsuffix-ruby)
-
 
 ## License
 
