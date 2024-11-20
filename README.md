@@ -68,7 +68,7 @@ var psl = require('psl/dist/psl.umd.cjs');
 
 #### Using a bundler
 
-If you are using a bundler to build your spp, you should be able to `import`
+If you are using a bundler to build your app, you should be able to `import`
 and/or `require` the module just like in Node.js.
 
 #### ESM (using a CDN)
