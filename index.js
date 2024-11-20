@@ -1,4 +1,5 @@
-import Punycode from 'punycode';
+import Punycode from 'punycode/punycode.js';
+
 import rules from './data/rules.js';
 
 
