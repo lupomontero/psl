@@ -71,7 +71,10 @@ fetch(src)
     },
     [],
   ))
-  .then(rules => writeFile(dest, `export default ${JSON.stringify(rules)};`))
+  .then(rules => writeFile(
+    dest,
+    `export default ${JSON.stringify(rules, null, 2)};`),
+  )
   .catch((error) => {
     console.error(error);
     process.exit(1);
