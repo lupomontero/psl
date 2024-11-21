@@ -7,6 +7,7 @@
     "url": "git@github.com:lupomontero/psl.git"
   },
   "type": "module",
+  "main": "./dist/psl.cjs",
   "exports": {
     ".": {
       "import": "./dist/psl.mjs",
