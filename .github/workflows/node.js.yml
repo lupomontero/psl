@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10]
+        node-version: [8, 10]
     defaults:
       run:
         working-directory: ./test/node-legacy-umd

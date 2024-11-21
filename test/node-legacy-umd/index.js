@@ -1,5 +1,5 @@
 var assert = require('assert');
-var psl = require('psl/dist/psl.umd.cjs');
+var psl = require('psl');
 
 assert.deepEqual(psl.parse('lupomontero.github.io'), {
   input: 'lupomontero.github.io',
