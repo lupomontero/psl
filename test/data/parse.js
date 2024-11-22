@@ -201,4 +201,15 @@ export default [
       listed: true,
     },
   },
+  {
+    value: '_jabber._tcp.gmail.com',
+    expected: {
+      input: '_jabber._tcp.gmail.com',
+      tld: 'com',
+      sld: 'gmail',
+      domain: 'gmail.com',
+      subdomain: '_jabber._tcp',
+      listed: true,
+    },
+  },
 ];

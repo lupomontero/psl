@@ -103,4 +103,7 @@ checkPublicSuffix('www.xn--85x722f.xn--fiqs8s', 'xn--85x722f.xn--fiqs8s');
 checkPublicSuffix('shishi.xn--fiqs8s', 'shishi.xn--fiqs8s');
 checkPublicSuffix('xn--fiqs8s', null);
 
+// https://github.com/lupomontero/psl/pull/46
+checkPublicSuffix('_jabber._tcp.gmail.com', 'gmail.com');
+
 export default testData;

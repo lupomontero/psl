@@ -6,4 +6,5 @@ export default [
   { value: 'pages.github.io', expected: true },
   { value: 'gov.uk', expected: false },
   { value: 'data.gov.uk', expected: true },
+  { value: '_jabber._tcp.gmail.com', expected: true },
 ];
