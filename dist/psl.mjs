@@ -9946,7 +9946,7 @@ d.validate = function(a) {
       return "LABEL_STARTS_WITH_DASH";
     if (o.charAt(o.length - 1) === "-")
       return "LABEL_ENDS_WITH_DASH";
-    if (!/^[a-z0-9\-]+$/.test(o))
+    if (!/^[a-z0-9\-_]+$/.test(o))
       return "LABEL_INVALID_CHARS";
   }
 };
