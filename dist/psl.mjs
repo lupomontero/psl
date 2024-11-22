@@ -1,15 +1,15 @@
-function B(a) {
+function F(a) {
   return a && a.__esModule && Object.prototype.hasOwnProperty.call(a, "default") ? a.default : a;
 }
-const b = 2147483647, p = 36, x = 1, y = 26, F = 38, H = 700, O = 72, I = 128, S = "-", N = /^xn--/, M = /[^\0-\x7F]/, R = /[\x2E\u3002\uFF0E\uFF61]/g, V = {
+const b = 2147483647, p = 36, x = 1, y = 26, H = 38, N = 700, O = 72, I = 128, S = "-", M = /^xn--/, R = /[^\0-\x7F]/, V = /[\x2E\u3002\uFF0E\uFF61]/g, W = {
   overflow: "Overflow: input needs wider integers to process",
   "not-basic": "Illegal input >= 0x80 (not a basic code point)",
   "invalid-input": "Invalid input"
 }, f = p - x, u = Math.floor, z = String.fromCharCode;
 function h(a) {
-  throw new RangeError(V[a]);
+  throw new RangeError(W[a]);
 }
-function W(a, s) {
+function G(a, s) {
   const e = [];
   let o = a.length;
   for (; o--; )
@@ -19,8 +19,8 @@ function W(a, s) {
 function C(a, s) {
   const e = a.split("@");
   let o = "";
-  e.length > 1 && (o = e[0] + "@", a = e[1]), a = a.replace(R, ".");
-  const i = a.split("."), n = W(i, s).join(".");
+  e.length > 1 && (o = e[0] + "@", a = e[1]), a = a.replace(V, ".");
+  const i = a.split("."), n = G(i, s).join(".");
   return o + n;
 }
 function L(a) {
@@ -37,15 +37,15 @@ function L(a) {
   }
   return s;
 }
-const G = (a) => String.fromCodePoint(...a), P = function(a) {
+const P = (a) => String.fromCodePoint(...a), U = function(a) {
   return a >= 48 && a < 58 ? 26 + (a - 48) : a >= 65 && a < 91 ? a - 65 : a >= 97 && a < 123 ? a - 97 : p;
 }, _ = function(a, s) {
   return a + 22 + 75 * (a < 26) - ((s != 0) << 5);
 }, D = function(a, s, e) {
   let o = 0;
-  for (a = e ? u(a / H) : a >> 1, a += u(a / s); a > f * y >> 1; o += p)
+  for (a = e ? u(a / N) : a >> 1, a += u(a / s); a > f * y >> 1; o += p)
     a = u(a / f);
-  return u(o + (f + 1) * a / (a + F));
+  return u(o + (f + 1) * a / (a + H));
 }, T = function(a) {
   const s = [], e = a.length;
   let o = 0, i = I, n = O, r = a.lastIndexOf(S);
@@ -56,7 +56,7 @@ const G = (a) => String.fromCodePoint(...a), P = function(a) {
     const m = o;
     for (let c = 1, k = p; ; k += p) {
       t >= e && h("invalid-input");
-      const l = P(a.charCodeAt(t++));
+      const l = U(a.charCodeAt(t++));
       l >= p && h("invalid-input"), l > u((b - o) / c) && h("overflow"), o += l * c;
       const j = k <= n ? x : k >= n + y ? y : k - n;
       if (l < j)
@@ -100,15 +100,15 @@ const G = (a) => String.fromCodePoint(...a), P = function(a) {
     ++i, ++o;
   }
   return s.join("");
-}, U = function(a) {
-  return C(a, function(s) {
-    return N.test(s) ? T(s.slice(4).toLowerCase()) : s;
-  });
 }, $ = function(a) {
   return C(a, function(s) {
-    return M.test(s) ? "xn--" + E(s) : s;
+    return M.test(s) ? T(s.slice(4).toLowerCase()) : s;
   });
-}, J = {
+}, J = function(a) {
+  return C(a, function(s) {
+    return R.test(s) ? "xn--" + E(s) : s;
+  });
+}, K = {
   /**
    * A string representing the current Punycode.js version number.
    * @memberOf punycode
@@ -124,15 +124,15 @@ const G = (a) => String.fromCodePoint(...a), P = function(a) {
    */
   ucs2: {
     decode: L,
-    encode: G
+    encode: P
   },
   decode: T,
   encode: E,
-  toASCII: $,
-  toUnicode: U
+  toASCII: J,
+  toUnicode: $
 };
-var K = J;
-const v = /* @__PURE__ */ B(K), Q = [
+var Q = K;
+const v = /* @__PURE__ */ F(Q), B = [
   "ac",
   "com.ac",
   "edu.ac",
@@ -9904,7 +9904,7 @@ const v = /* @__PURE__ */ B(K), Q = [
   "enterprisecloud.nu"
 ];
 var d = {};
-d.rules = Q.map(function(a) {
+d.rules = B.map(function(a) {
   return {
     rule: a,
     suffix: a.replace(/^(\*\.|\!)/, ""),
@@ -9987,7 +9987,7 @@ const q = function(a) {
 }, Z = function(a) {
   var s = q(a);
   return !!(s.domain && s.listed);
-}, aa = { parse: q, get: Y, isValid: Z };
+}, aa = { parse: q, get: Y, isValid: Z, rules: B };
 export {
   aa as default,
   X as errorCodes,

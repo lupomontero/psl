@@ -50,3 +50,8 @@ export function get(domain: string): string | null;
  * Check whether the given domain belongs to a known public suffix
  */
 export function isValid(domain: string): boolean;
+
+/**
+ * An array of TLDs used to parse domains.
+ */
+export const rules: string[];

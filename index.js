@@ -266,4 +266,4 @@ export const isValid = function (domain) {
   return Boolean(parsed.domain && parsed.listed);
 };
 
-export default { parse, get, isValid };
+export default { parse, get, isValid, rules };
