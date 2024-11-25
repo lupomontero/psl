@@ -1,7 +1,7 @@
 function B(a) {
   return a && a.__esModule && Object.prototype.hasOwnProperty.call(a, "default") ? a.default : a;
 }
-const b = 2147483647, p = 36, x = 1, y = 26, F = 38, H = 700, O = 72, I = 128, S = "-", N = /^xn--/, M = /[^\0-\x7F]/, R = /[\x2E\u3002\uFF0E\uFF61]/g, V = {
+const j = 2147483647, p = 36, x = 1, w = 26, M = 38, F = 700, C = 72, I = 128, O = "-", H = /^xn--/, N = /[^\0-\x7F]/, R = /[\x2E\u3002\uFF0E\uFF61]/g, V = {
   overflow: "Overflow: input needs wider integers to process",
   "not-basic": "Illegal input >= 0x80 (not a basic code point)",
   "invalid-input": "Invalid input"
@@ -9,21 +9,21 @@ const b = 2147483647, p = 36, x = 1, y = 26, F = 38, H = 700, O = 72, I = 128, S
 function h(a) {
   throw new RangeError(V[a]);
 }
-function W(a, s) {
+function P(a, s) {
   const e = [];
   let o = a.length;
   for (; o--; )
     e[o] = s(a[o]);
   return e;
 }
-function C(a, s) {
+function L(a, s) {
   const e = a.split("@");
   let o = "";
   e.length > 1 && (o = e[0] + "@", a = e[1]), a = a.replace(R, ".");
-  const i = a.split("."), n = W(i, s).join(".");
+  const i = a.split("."), n = P(i, s).join(".");
   return o + n;
 }
-function L(a) {
+function S(a) {
   const s = [];
   let e = 0;
   const o = a.length;
@@ -37,18 +37,18 @@ function L(a) {
   }
   return s;
 }
-const G = (a) => String.fromCodePoint(...a), P = function(a) {
+const G = (a) => String.fromCodePoint(...a), W = function(a) {
   return a >= 48 && a < 58 ? 26 + (a - 48) : a >= 65 && a < 91 ? a - 65 : a >= 97 && a < 123 ? a - 97 : p;
 }, _ = function(a, s) {
   return a + 22 + 75 * (a < 26) - ((s != 0) << 5);
 }, D = function(a, s, e) {
   let o = 0;
-  for (a = e ? u(a / H) : a >> 1, a += u(a / s); a > f * y >> 1; o += p)
+  for (a = e ? u(a / F) : a >> 1, a += u(a / s); a > f * w >> 1; o += p)
     a = u(a / f);
-  return u(o + (f + 1) * a / (a + F));
+  return u(o + (f + 1) * a / (a + M));
 }, T = function(a) {
   const s = [], e = a.length;
-  let o = 0, i = I, n = O, r = a.lastIndexOf(S);
+  let o = 0, i = I, n = C, r = a.lastIndexOf(O);
   r < 0 && (r = 0);
   for (let t = 0; t < r; ++t)
     a.charCodeAt(t) >= 128 && h("not-basic"), s.push(a.charCodeAt(t));
@@ -56,57 +56,57 @@ const G = (a) => String.fromCodePoint(...a), P = function(a) {
     const m = o;
     for (let c = 1, k = p; ; k += p) {
       t >= e && h("invalid-input");
-      const l = P(a.charCodeAt(t++));
-      l >= p && h("invalid-input"), l > u((b - o) / c) && h("overflow"), o += l * c;
-      const j = k <= n ? x : k >= n + y ? y : k - n;
-      if (l < j)
+      const l = W(a.charCodeAt(t++));
+      l >= p && h("invalid-input"), l > u((j - o) / c) && h("overflow"), o += l * c;
+      const d = k <= n ? x : k >= n + w ? w : k - n;
+      if (l < d)
         break;
-      const w = p - j;
-      c > u(b / w) && h("overflow"), c *= w;
+      const b = p - d;
+      c > u(j / b) && h("overflow"), c *= b;
     }
     const g = s.length + 1;
-    n = D(o - m, g, m == 0), u(o / g) > b - i && h("overflow"), i += u(o / g), o %= g, s.splice(o++, 0, i);
+    n = D(o - m, g, m == 0), u(o / g) > j - i && h("overflow"), i += u(o / g), o %= g, s.splice(o++, 0, i);
   }
   return String.fromCodePoint(...s);
 }, E = function(a) {
   const s = [];
-  a = L(a);
+  a = S(a);
   const e = a.length;
-  let o = I, i = 0, n = O;
+  let o = I, i = 0, n = C;
   for (const m of a)
     m < 128 && s.push(z(m));
   const r = s.length;
   let t = r;
-  for (r && s.push(S); t < e; ) {
-    let m = b;
+  for (r && s.push(O); t < e; ) {
+    let m = j;
     for (const c of a)
       c >= o && c < m && (m = c);
     const g = t + 1;
-    m - o > u((b - i) / g) && h("overflow"), i += (m - o) * g, o = m;
+    m - o > u((j - i) / g) && h("overflow"), i += (m - o) * g, o = m;
     for (const c of a)
-      if (c < o && ++i > b && h("overflow"), c === o) {
+      if (c < o && ++i > j && h("overflow"), c === o) {
         let k = i;
         for (let l = p; ; l += p) {
-          const j = l <= n ? x : l >= n + y ? y : l - n;
-          if (k < j)
+          const d = l <= n ? x : l >= n + w ? w : l - n;
+          if (k < d)
             break;
-          const w = k - j, A = p - j;
+          const b = k - d, A = p - d;
           s.push(
-            z(_(j + w % A, 0))
-          ), k = u(w / A);
+            z(_(d + b % A, 0))
+          ), k = u(b / A);
         }
         s.push(z(_(k, 0))), n = D(i, g, t === r), i = 0, ++t;
       }
     ++i, ++o;
   }
   return s.join("");
-}, U = function(a) {
-  return C(a, function(s) {
-    return N.test(s) ? T(s.slice(4).toLowerCase()) : s;
-  });
 }, $ = function(a) {
-  return C(a, function(s) {
-    return M.test(s) ? "xn--" + E(s) : s;
+  return L(a, function(s) {
+    return H.test(s) ? T(s.slice(4).toLowerCase()) : s;
+  });
+}, U = function(a) {
+  return L(a, function(s) {
+    return N.test(s) ? "xn--" + E(s) : s;
   });
 }, J = {
   /**
@@ -123,16 +123,16 @@ const G = (a) => String.fromCodePoint(...a), P = function(a) {
    * @type Object
    */
   ucs2: {
-    decode: L,
+    decode: S,
     encode: G
   },
   decode: T,
   encode: E,
-  toASCII: $,
-  toUnicode: U
+  toASCII: U,
+  toUnicode: $
 };
 var K = J;
-const v = /* @__PURE__ */ B(K), Q = [
+const y = /* @__PURE__ */ B(K), Q = [
   "ac",
   "com.ac",
   "edu.ac",
@@ -9903,26 +9903,31 @@ const v = /* @__PURE__ */ B(K), Q = [
   "virtualserver.io",
   "enterprisecloud.nu"
 ];
-var d = {};
-d.rules = Q.map(function(a) {
-  return {
-    rule: a,
-    suffix: a.replace(/^(\*\.|\!)/, ""),
-    punySuffix: -1,
-    wildcard: a.charAt(0) === "*",
-    exception: a.charAt(0) === "!"
-  };
-});
-d.endsWith = function(a, s) {
-  return a.indexOf(s, a.length - s.length) !== -1;
+var v = {};
+const X = Q.reduce(
+  (a, s) => {
+    const e = s.replace(/^(\*\.|\!)/, ""), o = y.toASCII(e), i = s.charAt(0);
+    if (a.has(o))
+      throw new Error(`Multiple rules found for ${s} (${o})`);
+    return a.set(o, {
+      rule: s,
+      suffix: e,
+      punySuffix: o,
+      wildcard: i === "*",
+      exception: i === "!"
+    }), a;
+  },
+  /* @__PURE__ */ new Map()
+);
+v.findRule = function(a) {
+  for (var s = y.toASCII(a), e = s.split("."), o = 0; o < e.length; o++) {
+    var i = e.slice(o).join("."), n = X.get(i);
+    if (n)
+      return n;
+  }
+  return null;
 };
-d.findRule = function(a) {
-  var s = v.toASCII(a);
-  return d.rules.reduce(function(e, o) {
-    return o.punySuffix === -1 && (o.punySuffix = v.toASCII(o.suffix)), !d.endsWith(s, "." + o.punySuffix) && s !== o.punySuffix ? e : o;
-  }, null);
-};
-const X = {
+const Y = {
   DOMAIN_TOO_SHORT: "Domain name too short.",
   DOMAIN_TOO_LONG: "Domain name too long. It should be no more than 255 chars.",
   LABEL_STARTS_WITH_DASH: "Domain name label can not start with a dash.",
@@ -9931,8 +9936,8 @@ const X = {
   LABEL_TOO_SHORT: "Domain name label should be at least 1 character long.",
   LABEL_INVALID_CHARS: "Domain name label can only contain alphanumeric characters or dashes."
 };
-d.validate = function(a) {
-  var s = v.toASCII(a);
+v.validate = function(a) {
+  var s = y.toASCII(a);
   if (s.length < 1)
     return "DOMAIN_TOO_SHORT";
   if (s.length > 255)
@@ -9955,12 +9960,12 @@ const q = function(a) {
     throw new TypeError("Domain name must be a string.");
   var s = a.slice(0).toLowerCase();
   s.charAt(s.length - 1) === "." && (s = s.slice(0, s.length - 1));
-  var e = d.validate(s);
+  var e = v.validate(s);
   if (e)
     return {
       input: a,
       error: {
-        message: X[e],
+        message: Y[e],
         code: e
       }
     };
@@ -9975,23 +9980,23 @@ const q = function(a) {
   if (i[i.length - 1] === "local")
     return o;
   var n = function() {
-    return /xn--/.test(s) && (o.domain && (o.domain = v.toASCII(o.domain)), o.subdomain && (o.subdomain = v.toASCII(o.subdomain))), o;
-  }, r = d.findRule(s);
+    return /xn--/.test(s) && (o.domain && (o.domain = y.toASCII(o.domain)), o.subdomain && (o.subdomain = y.toASCII(o.subdomain))), o;
+  }, r = v.findRule(s);
   if (!r)
     return i.length < 2 ? o : (o.tld = i.pop(), o.sld = i.pop(), o.domain = [o.sld, o.tld].join("."), i.length && (o.subdomain = i.pop()), n());
   o.listed = !0;
   var t = r.suffix.split("."), m = i.slice(0, i.length - t.length);
   return r.exception && m.push(t.shift()), o.tld = t.join("."), !m.length || (r.wildcard && (t.unshift(m.pop()), o.tld = t.join(".")), !m.length) || (o.sld = m.pop(), o.domain = [o.sld, o.tld].join("."), m.length && (o.subdomain = m.join("."))), n();
-}, Y = function(a) {
-  return a && q(a).domain || null;
 }, Z = function(a) {
+  return a && q(a).domain || null;
+}, aa = function(a) {
   var s = q(a);
   return !!(s.domain && s.listed);
-}, aa = { parse: q, get: Y, isValid: Z };
+}, oa = { parse: q, get: Z, isValid: aa };
 export {
-  aa as default,
-  X as errorCodes,
-  Y as get,
-  Z as isValid,
+  oa as default,
+  Y as errorCodes,
+  Z as get,
+  aa as isValid,
   q as parse
 };
