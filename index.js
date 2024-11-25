@@ -31,20 +31,6 @@ const rulesByPunySuffix = rules.reduce(
   new Map(),
 );
 
-//
-// Check if given string ends with `suffix`.
-//
-internals.endsWith = function (str, suffix) {
-
-  return str.indexOf(suffix, str.length - suffix.length) !== -1;
-};
-
-//
-// ASCII string reverse function
-//
-internals.reverse = function (str) {
-  return str.split("").reverse().join("")
-}
 
 //
 // Find rule for a given domain.
