@@ -23,6 +23,7 @@
     "update-rules": "./scripts/update-rules.js",
     "build": "vite build",
     "postbuild": "ln -s ./psl.umd.cjs dist/psl.js && ln -s ./psl.umd.cjs dist/psl.min.js",
+    "benchmark": "node --experimental-vm-modules --no-warnings benchmark/suite.js",
     "changelog": "git log $(git describe --tags --abbrev=0)..HEAD --oneline --format=\"%h %s (%an <%ae>)\""
   },
   "keywords": [
