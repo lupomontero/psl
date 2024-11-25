@@ -8,23 +8,28 @@ var internals = {};
 //
 // Parse rules from file.
 //
-internals.rules = rules.map(function (rule) {
+const rulesByPunySuffix = rules.reduce(
+  (map, rule) => {
+    const suffix = rule.replace(/^(\*\.|\!)/, '');
+    const punySuffix = Punycode.toASCII(suffix);
+    const firstChar = rule.charAt(0);
 
-  const suffix = rule.replace(/^(\*\.|\!)/, '');
-  return {
-    rule: rule,
-    suffix,
-    punySuffix: Punycode.toASCII(suffix),
-    wildcard: rule.charAt(0) === '*',
-    exception: rule.charAt(0) === '!'
-  };
-});
+    if (map.has(punySuffix)) {
+      throw new Error(`Multiple rules found for ${rule} (${punySuffix})`);
+    }
 
-internals.rulesBySuffix = new Map();
-for (var rule of internals.rules) {
-  var existingRules = internals.rulesBySuffix.get(rule.punySuffix);
-  internals.rulesBySuffix.set(rule.punySuffix, existingRules ? existingRules.concat(rule) : [rule]);
-}
+    map.set(punySuffix, {
+      rule,
+      suffix,
+      punySuffix,
+      wildcard: firstChar === '*',
+      exception: firstChar === '!'
+    });
+
+    return map;
+  },
+  new Map(),
+);
 
 //
 // Check if given string ends with `suffix`.
@@ -48,32 +53,14 @@ internals.findRule = function (domain) {
 
   var punyDomain = Punycode.toASCII(domain);
   var punyDomainChunks = punyDomain.split('.');
-  var matchingRules;
   for (var i = 0; i < punyDomainChunks.length; i++) {
     var suffix = punyDomainChunks.slice(i).join('.');
-    var matchingRules = internals.rulesBySuffix.get(suffix);
+    var matchingRules = rulesByPunySuffix.get(suffix);
     if (matchingRules) {
-      break;
+      return matchingRules;
     }
   }
-  if (!matchingRules) {
-    return null;
-  }
-  return matchingRules.reduce(function (memo, rule) {
-    if (!internals.endsWith(punyDomain, '.' + rule.punySuffix) && punyDomain !== rule.punySuffix) {
-      return memo;
-    }
-    // This has been commented out as it never seems to run. This is because
-    // sub tlds always appear after their parents and we never find a shorter
-    // match.
-    //if (memo) {
-    //  var memoSuffix = Punycode.toASCII(memo.suffix);
-    //  if (memoSuffix.length >= punySuffix.length) {
-    //    return memo;
-    //  }
-    //}
-    return rule;
-  }, null);
+  return null;
 };
 
 
