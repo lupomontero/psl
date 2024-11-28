@@ -109,9 +109,7 @@ const fetchModule = async (version) => {
   return mod.namespace;
 };
 
-const main = async () => {
-  const compareToVersion = 'v1.13.0';
-
+const main = async (compareToVersion = 'latest') => {
   const results = await runSuites([
     { module: psl, version: 'source' },
     { module: await fetchModule(compareToVersion), version: compareToVersion },
@@ -120,7 +118,7 @@ const main = async () => {
   printResults(results, compareToVersion);
 };
 
-main().catch((error) => {
+main(process.argv[2]).catch((error) => {
   console.error(error);
   process.exit(1);
 });
