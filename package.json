@@ -31,6 +31,7 @@
     "publicsuffixlist"
   ],
   "author": "Lupo Montero <lupomontero@gmail.com> (https://lupomontero.com/)",
+  "funding": "https://github.com/sponsors/lupomontero",
   "license": "MIT",
   "dependencies": {
     "punycode": "^2.3.1"
