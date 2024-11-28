@@ -35,13 +35,16 @@ details.
 
 ### Node.js
 
+This module is tested on Node.js v8, v10, v12, v14, v16, v18, v20 and v22. See
+[`.github/workflows/node.js.yml`](.github/workflows/node.js.yml).
+
 ```sh
 npm install psl
 ```
 
 #### ESM
 
-From version `v1.11.0` you can now import `psl` as ESM.
+From version `v1.13.0` you can now import `psl` as ESM.
 
 ```js
 import psl from 'psl';
@@ -49,19 +52,11 @@ import psl from 'psl';
 
 #### CommonJS
 
-If your project still uses CommonJS on Node.js v12 or later (with support for
-conditional exports), you can continue importing the module like in previous
-versions.
+If your project still uses CommonJS, you can continue importing the module like
+in previous versions.
 
 ```js
 const psl = require('psl');
-```
-
-⚠️ If you are using Node.js v10 or older (😰), you can still use the latest
-version of this module, but you will need to import the bundled UMD.
-
-```js
-var psl = require('psl/dist/psl.umd.cjs');
 ```
 
 ### Browser
