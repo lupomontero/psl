@@ -228,7 +228,24 @@ npm run update-rules
 npm run build
 ```
 
-Feel free to fork if you see possible improvements!
+## Benchmarking
+
+Compare ops/sec using local source vs _latest_ published version.
+
+```sh
+npm run benchmark
+```
+
+Compare to a specific version:
+
+```sh
+npm run benchmark -- v1.13.0
+```
+
+CAVEATS:
+
+* The benchmarking script only works on ESM (it uses [`vm.SourceTextModule`](https://nodejs.org/docs/latest-v20.x/api/vm.html#class-vmsourcetextmodule)),
+  so we can only compare to `v1.13.0` and above.
 
 ## Acknowledgements
 
