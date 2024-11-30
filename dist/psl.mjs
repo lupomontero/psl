@@ -1,138 +1,144 @@
-function B(a) {
-  return a && a.__esModule && Object.prototype.hasOwnProperty.call(a, "default") ? a.default : a;
+function $(e) {
+  return e && e.__esModule && Object.prototype.hasOwnProperty.call(e, "default") ? e.default : e;
 }
-const j = 2147483647, p = 36, x = 1, w = 26, M = 38, F = 700, C = 72, I = 128, O = "-", H = /^xn--/, N = /[^\0-\x7F]/, R = /[\x2E\u3002\uFF0E\uFF61]/g, V = {
-  overflow: "Overflow: input needs wider integers to process",
-  "not-basic": "Illegal input >= 0x80 (not a basic code point)",
-  "invalid-input": "Invalid input"
-}, f = p - x, u = Math.floor, z = String.fromCharCode;
-function h(a) {
-  throw new RangeError(V[a]);
-}
-function P(a, s) {
-  const e = [];
-  let o = a.length;
-  for (; o--; )
-    e[o] = s(a[o]);
-  return e;
-}
-function L(a, s) {
-  const e = a.split("@");
-  let o = "";
-  e.length > 1 && (o = e[0] + "@", a = e[1]), a = a.replace(R, ".");
-  const i = a.split("."), n = P(i, s).join(".");
-  return o + n;
-}
-function S(a) {
-  const s = [];
-  let e = 0;
-  const o = a.length;
-  for (; e < o; ) {
-    const i = a.charCodeAt(e++);
-    if (i >= 55296 && i <= 56319 && e < o) {
-      const n = a.charCodeAt(e++);
-      (n & 64512) == 56320 ? s.push(((i & 1023) << 10) + (n & 1023) + 65536) : (s.push(i), e--);
-    } else
-      s.push(i);
+var O, H;
+function J() {
+  if (H) return O;
+  H = 1;
+  const e = 2147483647, s = 36, c = 1, o = 26, t = 38, d = 700, z = 72, y = 128, g = "-", N = /^xn--/, R = /[^\0-\x7F]/, P = /[\x2E\u3002\uFF0E\uFF61]/g, V = {
+    overflow: "Overflow: input needs wider integers to process",
+    "not-basic": "Illegal input >= 0x80 (not a basic code point)",
+    "invalid-input": "Invalid input"
+  }, I = s - c, h = Math.floor, C = String.fromCharCode;
+  function v(a) {
+    throw new RangeError(V[a]);
   }
-  return s;
-}
-const G = (a) => String.fromCodePoint(...a), W = function(a) {
-  return a >= 48 && a < 58 ? 26 + (a - 48) : a >= 65 && a < 91 ? a - 65 : a >= 97 && a < 123 ? a - 97 : p;
-}, _ = function(a, s) {
-  return a + 22 + 75 * (a < 26) - ((s != 0) << 5);
-}, D = function(a, s, e) {
-  let o = 0;
-  for (a = e ? u(a / F) : a >> 1, a += u(a / s); a > f * w >> 1; o += p)
-    a = u(a / f);
-  return u(o + (f + 1) * a / (a + M));
-}, T = function(a) {
-  const s = [], e = a.length;
-  let o = 0, i = I, n = C, r = a.lastIndexOf(O);
-  r < 0 && (r = 0);
-  for (let t = 0; t < r; ++t)
-    a.charCodeAt(t) >= 128 && h("not-basic"), s.push(a.charCodeAt(t));
-  for (let t = r > 0 ? r + 1 : 0; t < e; ) {
-    const m = o;
-    for (let c = 1, k = p; ; k += p) {
-      t >= e && h("invalid-input");
-      const l = W(a.charCodeAt(t++));
-      l >= p && h("invalid-input"), l > u((j - o) / c) && h("overflow"), o += l * c;
-      const d = k <= n ? x : k >= n + w ? w : k - n;
-      if (l < d)
-        break;
-      const b = p - d;
-      c > u(j / b) && h("overflow"), c *= b;
+  function G(a, i) {
+    const m = [];
+    let n = a.length;
+    for (; n--; )
+      m[n] = i(a[n]);
+    return m;
+  }
+  function S(a, i) {
+    const m = a.split("@");
+    let n = "";
+    m.length > 1 && (n = m[0] + "@", a = m[1]), a = a.replace(P, ".");
+    const r = a.split("."), p = G(r, i).join(".");
+    return n + p;
+  }
+  function D(a) {
+    const i = [];
+    let m = 0;
+    const n = a.length;
+    for (; m < n; ) {
+      const r = a.charCodeAt(m++);
+      if (r >= 55296 && r <= 56319 && m < n) {
+        const p = a.charCodeAt(m++);
+        (p & 64512) == 56320 ? i.push(((r & 1023) << 10) + (p & 1023) + 65536) : (i.push(r), m--);
+      } else
+        i.push(r);
     }
-    const g = s.length + 1;
-    n = D(o - m, g, m == 0), u(o / g) > j - i && h("overflow"), i += u(o / g), o %= g, s.splice(o++, 0, i);
+    return i;
   }
-  return String.fromCodePoint(...s);
-}, E = function(a) {
-  const s = [];
-  a = S(a);
-  const e = a.length;
-  let o = I, i = 0, n = C;
-  for (const m of a)
-    m < 128 && s.push(z(m));
-  const r = s.length;
-  let t = r;
-  for (r && s.push(O); t < e; ) {
-    let m = j;
-    for (const c of a)
-      c >= o && c < m && (m = c);
-    const g = t + 1;
-    m - o > u((j - i) / g) && h("overflow"), i += (m - o) * g, o = m;
-    for (const c of a)
-      if (c < o && ++i > j && h("overflow"), c === o) {
-        let k = i;
-        for (let l = p; ; l += p) {
-          const d = l <= n ? x : l >= n + w ? w : l - n;
-          if (k < d)
-            break;
-          const b = k - d, A = p - d;
-          s.push(
-            z(_(d + b % A, 0))
-          ), k = u(b / A);
-        }
-        s.push(z(_(k, 0))), n = D(i, g, t === r), i = 0, ++t;
+  const W = (a) => String.fromCodePoint(...a), U = function(a) {
+    return a >= 48 && a < 58 ? 26 + (a - 48) : a >= 65 && a < 91 ? a - 65 : a >= 97 && a < 123 ? a - 97 : s;
+  }, T = function(a, i) {
+    return a + 22 + 75 * (a < 26) - ((i != 0) << 5);
+  }, E = function(a, i, m) {
+    let n = 0;
+    for (a = m ? h(a / d) : a >> 1, a += h(a / i); a > I * o >> 1; n += s)
+      a = h(a / I);
+    return h(n + (I + 1) * a / (a + t));
+  }, B = function(a) {
+    const i = [], m = a.length;
+    let n = 0, r = y, p = z, j = a.lastIndexOf(g);
+    j < 0 && (j = 0);
+    for (let u = 0; u < j; ++u)
+      a.charCodeAt(u) >= 128 && v("not-basic"), i.push(a.charCodeAt(u));
+    for (let u = j > 0 ? j + 1 : 0; u < m; ) {
+      const k = n;
+      for (let l = 1, b = s; ; b += s) {
+        u >= m && v("invalid-input");
+        const w = U(a.charCodeAt(u++));
+        w >= s && v("invalid-input"), w > h((e - n) / l) && v("overflow"), n += w * l;
+        const x = b <= p ? c : b >= p + o ? o : b - p;
+        if (w < x)
+          break;
+        const q = s - x;
+        l > h(e / q) && v("overflow"), l *= q;
       }
-    ++i, ++o;
-  }
-  return s.join("");
-}, $ = function(a) {
-  return L(a, function(s) {
-    return H.test(s) ? T(s.slice(4).toLowerCase()) : s;
-  });
-}, U = function(a) {
-  return L(a, function(s) {
-    return N.test(s) ? "xn--" + E(s) : s;
-  });
-}, J = {
-  /**
-   * A string representing the current Punycode.js version number.
-   * @memberOf punycode
-   * @type String
-   */
-  version: "2.3.1",
-  /**
-   * An object of methods to convert from JavaScript's internal character
-   * representation (UCS-2) to Unicode code points, and back.
-   * @see <https://mathiasbynens.be/notes/javascript-encoding>
-   * @memberOf punycode
-   * @type Object
-   */
-  ucs2: {
-    decode: S,
-    encode: G
-  },
-  decode: T,
-  encode: E,
-  toASCII: U,
-  toUnicode: $
-};
-var K = J;
-const y = /* @__PURE__ */ B(K), Q = [
+      const f = i.length + 1;
+      p = E(n - k, f, k == 0), h(n / f) > e - r && v("overflow"), r += h(n / f), n %= f, i.splice(n++, 0, r);
+    }
+    return String.fromCodePoint(...i);
+  }, M = function(a) {
+    const i = [];
+    a = D(a);
+    const m = a.length;
+    let n = y, r = 0, p = z;
+    for (const k of a)
+      k < 128 && i.push(C(k));
+    const j = i.length;
+    let u = j;
+    for (j && i.push(g); u < m; ) {
+      let k = e;
+      for (const l of a)
+        l >= n && l < k && (k = l);
+      const f = u + 1;
+      k - n > h((e - r) / f) && v("overflow"), r += (k - n) * f, n = k;
+      for (const l of a)
+        if (l < n && ++r > e && v("overflow"), l === n) {
+          let b = r;
+          for (let w = s; ; w += s) {
+            const x = w <= p ? c : w >= p + o ? o : w - p;
+            if (b < x)
+              break;
+            const q = b - x, F = s - x;
+            i.push(
+              C(T(x + q % F, 0))
+            ), b = h(q / F);
+          }
+          i.push(C(T(b, 0))), p = E(r, f, u === j), r = 0, ++u;
+        }
+      ++r, ++n;
+    }
+    return i.join("");
+  };
+  return O = {
+    /**
+     * A string representing the current Punycode.js version number.
+     * @memberOf punycode
+     * @type String
+     */
+    version: "2.3.1",
+    /**
+     * An object of methods to convert from JavaScript's internal character
+     * representation (UCS-2) to Unicode code points, and back.
+     * @see <https://mathiasbynens.be/notes/javascript-encoding>
+     * @memberOf punycode
+     * @type Object
+     */
+    ucs2: {
+      decode: D,
+      encode: W
+    },
+    decode: B,
+    encode: M,
+    toASCII: function(a) {
+      return S(a, function(i) {
+        return R.test(i) ? "xn--" + M(i) : i;
+      });
+    },
+    toUnicode: function(a) {
+      return S(a, function(i) {
+        return N.test(i) ? B(i.slice(4).toLowerCase()) : i;
+      });
+    }
+  }, O;
+}
+var K = J();
+const A = /* @__PURE__ */ $(K), Q = [
   "ac",
   "com.ac",
   "edu.ac",
@@ -830,9 +836,12 @@ const y = /* @__PURE__ */ B(K), Q = [
   "cv",
   "com.cv",
   "edu.cv",
+  "id.cv",
   "int.cv",
+  "net.cv",
   "nome.cv",
   "org.cv",
+  "publ.cv",
   "cw",
   "com.cw",
   "edu.cw",
@@ -912,15 +921,20 @@ const y = /* @__PURE__ */ B(K), Q = [
   "org.ee",
   "fie.ee",
   "eg",
+  "ac.eg",
   "com.eg",
   "edu.eg",
   "eun.eg",
   "gov.eg",
+  "info.eg",
+  "me.eg",
   "mil.eg",
   "name.eg",
   "net.eg",
   "org.eg",
   "sci.eg",
+  "sport.eg",
+  "tv.eg",
   "*.er",
   "es",
   "com.es",
@@ -978,10 +992,10 @@ const y = /* @__PURE__ */ B(K), Q = [
   "com.ge",
   "edu.ge",
   "gov.ge",
-  "org.ge",
-  "mil.ge",
   "net.ge",
+  "org.ge",
   "pvt.ge",
+  "school.ge",
   "gf",
   "gg",
   "co.gg",
@@ -5246,19 +5260,16 @@ const y = /* @__PURE__ */ B(K), Q = [
   "pro.tt",
   "tv",
   "tw",
-  "edu.tw",
-  "gov.tw",
-  "mil.tw",
+  "club.tw",
   "com.tw",
+  "ebiz.tw",
+  "edu.tw",
+  "game.tw",
+  "gov.tw",
+  "idv.tw",
+  "mil.tw",
   "net.tw",
   "org.tw",
-  "idv.tw",
-  "game.tw",
-  "ebiz.tw",
-  "club.tw",
-  "網路.tw",
-  "組織.tw",
-  "商業.tw",
   "tz",
   "ac.tz",
   "co.tz",
@@ -9096,7 +9107,6 @@ const y = /* @__PURE__ */ B(K), Q = [
   "mcdir.ru",
   "vps.mcdir.ru",
   "mcpre.ru",
-  "mcpe.me",
   "mediatech.by",
   "mediatech.dev",
   "hra.health",
@@ -9484,6 +9494,9 @@ const y = /* @__PURE__ */ B(K), Q = [
   "nz.basketball",
   "git-pages.rit.edu",
   "rocky.page",
+  "rub.de",
+  "ruhr-uni-bochum.de",
+  "io.noc.ruhr-uni-bochum.de",
   "биз.рус",
   "ком.рус",
   "крым.рус",
@@ -9903,27 +9916,27 @@ const y = /* @__PURE__ */ B(K), Q = [
   "virtualserver.io",
   "enterprisecloud.nu"
 ];
-var v = {};
+var _ = {};
 const X = Q.reduce(
-  (a, s) => {
-    const e = s.replace(/^(\*\.|\!)/, ""), o = y.toASCII(e), i = s.charAt(0);
-    if (a.has(o))
+  (e, s) => {
+    const c = s.replace(/^(\*\.|\!)/, ""), o = A.toASCII(c), t = s.charAt(0);
+    if (e.has(o))
       throw new Error(`Multiple rules found for ${s} (${o})`);
-    return a.set(o, {
+    return e.set(o, {
       rule: s,
-      suffix: e,
+      suffix: c,
       punySuffix: o,
-      wildcard: i === "*",
-      exception: i === "!"
-    }), a;
+      wildcard: t === "*",
+      exception: t === "!"
+    }), e;
   },
   /* @__PURE__ */ new Map()
 );
-v.findRule = function(a) {
-  for (var s = y.toASCII(a), e = s.split("."), o = 0; o < e.length; o++) {
-    var i = e.slice(o).join("."), n = X.get(i);
-    if (n)
-      return n;
+_.findRule = function(e) {
+  for (var s = A.toASCII(e), c = s.split("."), o = 0; o < c.length; o++) {
+    var t = c.slice(o).join("."), d = X.get(t);
+    if (d)
+      return d;
   }
   return null;
 };
@@ -9936,14 +9949,14 @@ const Y = {
   LABEL_TOO_SHORT: "Domain name label should be at least 1 character long.",
   LABEL_INVALID_CHARS: "Domain name label can only contain alphanumeric characters or dashes."
 };
-v.validate = function(a) {
-  var s = y.toASCII(a);
+_.validate = function(e) {
+  var s = A.toASCII(e);
   if (s.length < 1)
     return "DOMAIN_TOO_SHORT";
   if (s.length > 255)
     return "DOMAIN_TOO_LONG";
-  for (var e = s.split("."), o, i = 0; i < e.length; ++i) {
-    if (o = e[i], !o.length)
+  for (var c = s.split("."), o, t = 0; t < c.length; ++t) {
+    if (o = c[t], !o.length)
       return "LABEL_TOO_SHORT";
     if (o.length > 63)
       return "LABEL_TOO_LONG";
@@ -9955,48 +9968,48 @@ v.validate = function(a) {
       return "LABEL_INVALID_CHARS";
   }
 };
-const q = function(a) {
-  if (typeof a != "string")
+const L = function(e) {
+  if (typeof e != "string")
     throw new TypeError("Domain name must be a string.");
-  var s = a.slice(0).toLowerCase();
+  var s = e.slice(0).toLowerCase();
   s.charAt(s.length - 1) === "." && (s = s.slice(0, s.length - 1));
-  var e = v.validate(s);
-  if (e)
+  var c = _.validate(s);
+  if (c)
     return {
-      input: a,
+      input: e,
       error: {
-        message: Y[e],
-        code: e
+        message: Y[c],
+        code: c
       }
     };
   var o = {
-    input: a,
+    input: e,
     tld: null,
     sld: null,
     domain: null,
     subdomain: null,
     listed: !1
-  }, i = s.split(".");
-  if (i[i.length - 1] === "local")
+  }, t = s.split(".");
+  if (t[t.length - 1] === "local")
     return o;
-  var n = function() {
-    return /xn--/.test(s) && (o.domain && (o.domain = y.toASCII(o.domain)), o.subdomain && (o.subdomain = y.toASCII(o.subdomain))), o;
-  }, r = v.findRule(s);
-  if (!r)
-    return i.length < 2 ? o : (o.tld = i.pop(), o.sld = i.pop(), o.domain = [o.sld, o.tld].join("."), i.length && (o.subdomain = i.pop()), n());
+  var d = function() {
+    return /xn--/.test(s) && (o.domain && (o.domain = A.toASCII(o.domain)), o.subdomain && (o.subdomain = A.toASCII(o.subdomain))), o;
+  }, z = _.findRule(s);
+  if (!z)
+    return t.length < 2 ? o : (o.tld = t.pop(), o.sld = t.pop(), o.domain = [o.sld, o.tld].join("."), t.length && (o.subdomain = t.pop()), d());
   o.listed = !0;
-  var t = r.suffix.split("."), m = i.slice(0, i.length - t.length);
-  return r.exception && m.push(t.shift()), o.tld = t.join("."), !m.length || (r.wildcard && (t.unshift(m.pop()), o.tld = t.join(".")), !m.length) || (o.sld = m.pop(), o.domain = [o.sld, o.tld].join("."), m.length && (o.subdomain = m.join("."))), n();
-}, Z = function(a) {
-  return a && q(a).domain || null;
-}, aa = function(a) {
-  var s = q(a);
+  var y = z.suffix.split("."), g = t.slice(0, t.length - y.length);
+  return z.exception && g.push(y.shift()), o.tld = y.join("."), !g.length || (z.wildcard && (y.unshift(g.pop()), o.tld = y.join(".")), !g.length) || (o.sld = g.pop(), o.domain = [o.sld, o.tld].join("."), g.length && (o.subdomain = g.join("."))), d();
+}, Z = function(e) {
+  return e && L(e).domain || null;
+}, aa = function(e) {
+  var s = L(e);
   return !!(s.domain && s.listed);
-}, oa = { parse: q, get: Z, isValid: aa };
+}, ea = { parse: L, get: Z, isValid: aa };
 export {
-  oa as default,
+  ea as default,
   Y as errorCodes,
   Z as get,
   aa as isValid,
-  q as parse
+  L as parse
 };
