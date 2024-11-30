@@ -109,7 +109,23 @@ const fetchModule = async (version) => {
   return mod.namespace;
 };
 
-const main = async (compareToVersion = 'latest') => {
+const sanitiseVersion = (version = 'latest') => {
+  const semverRegExp = new RegExp([
+    '^v(0|[1-9]\\d*)',
+    '\\.(0|[1-9]\\d*)',
+    '\\.(0|[1-9]\\d*|x)',
+    '(?:[-]?[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$'
+   ].join(''));
+
+  if (version !== 'latest' && !semverRegExp.test(version)) {
+    throw new Error(`Unknown version argument format: ${version}`);
+  }
+
+  return version;
+};
+
+const main = async () => {
+  const compareToVersion = sanitiseVersion(process.argv[2]);
   const results = await runSuites([
     { module: psl, version: 'source' },
     { module: await fetchModule(compareToVersion), version: compareToVersion },
@@ -118,7 +134,7 @@ const main = async (compareToVersion = 'latest') => {
   printResults(results, compareToVersion);
 };
 
-main(process.argv[2]).catch((error) => {
+main().catch((error) => {
   console.error(error);
   process.exit(1);
 });
