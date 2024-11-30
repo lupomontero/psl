@@ -44,7 +44,7 @@ const runSuites = (suites) => {
   return recurse(suites, [])
 };
 
-const printResults = (results, compareToVersion) => {
+const printResults = (results, versionToCompare) => {
   const parsedResults = results.map(result => ({
     version: result.version,
     name: result.name,
@@ -75,7 +75,7 @@ const printResults = (results, compareToVersion) => {
   const resultsByFuncSummary = Object.keys(resultsByFunc).reduce(
     (memo, name) => {
       const sourceOpsXSec = parseInt(resultsByFunc[name].source, 10);
-      const compareToOpsXSec = parseInt(resultsByFunc[name][compareToVersion], 10);
+      const compareToOpsXSec = parseInt(resultsByFunc[name][versionToCompare], 10);
       const diff = (
         sourceOpsXSec > compareToOpsXSec
           ? `${(sourceOpsXSec / compareToOpsXSec).toFixed(2)}x up`
@@ -125,13 +125,13 @@ const sanitiseVersion = (version = 'latest') => {
 };
 
 const main = async () => {
-  const compareToVersion = sanitiseVersion(process.argv[2]);
+  const versionToCompare = sanitiseVersion(process.argv[2]);
   const results = await runSuites([
     { module: psl, version: 'source' },
-    { module: await fetchModule(compareToVersion), version: compareToVersion },
+    { module: await fetchModule(versionToCompare), version: versionToCompare },
   ]);
 
-  printResults(results, compareToVersion);
+  printResults(results, versionToCompare);
 };
 
 main().catch((error) => {
