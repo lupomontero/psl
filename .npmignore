@@ -1,4 +1,5 @@
 .github
+benchmark/
 examples/
 scripts/
 test/
