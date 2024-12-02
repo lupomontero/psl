@@ -27,7 +27,6 @@ Public Suffix List is a list of all known public suffixes.
 
 Source: http://publicsuffix.org
 
-
 ## Installation
 
 This module is available both for Node.js and the browser. See below for more
@@ -90,8 +89,7 @@ loader.
 
 The script is also available on most popular CDNs. For example:
 
-* https://cdnjs.cloudflare.com/ajax/libs/psl/latest/psl.min.js
-* https://unpkg.com/psl@latest/dist/psl.min.js
+* https://unpkg.com/psl@latest/dist/psl.umd.cjs
 
 ## API
 
