@@ -1,33 +1,33 @@
-function $(e) {
+function U(e) {
   return e && e.__esModule && Object.prototype.hasOwnProperty.call(e, "default") ? e.default : e;
 }
-var O, H;
-function J() {
-  if (H) return O;
-  H = 1;
-  const e = 2147483647, s = 36, c = 1, o = 26, t = 38, d = 700, z = 72, y = 128, g = "-", N = /^xn--/, R = /[^\0-\x7F]/, P = /[\x2E\u3002\uFF0E\uFF61]/g, V = {
+var C, F;
+function $() {
+  if (F) return C;
+  F = 1;
+  const e = 2147483647, s = 36, c = 1, o = 26, t = 38, d = 700, z = 72, y = 128, g = "-", H = /^xn--/, N = /[^\0-\x7F]/, R = /[\x2E\u3002\uFF0E\uFF61]/g, P = {
     overflow: "Overflow: input needs wider integers to process",
     "not-basic": "Illegal input >= 0x80 (not a basic code point)",
     "invalid-input": "Invalid input"
-  }, I = s - c, h = Math.floor, C = String.fromCharCode;
+  }, _ = s - c, h = Math.floor, I = String.fromCharCode;
   function v(a) {
-    throw new RangeError(V[a]);
+    throw new RangeError(P[a]);
   }
-  function G(a, i) {
+  function V(a, i) {
     const m = [];
     let n = a.length;
     for (; n--; )
       m[n] = i(a[n]);
     return m;
   }
-  function S(a, i) {
+  function L(a, i) {
     const m = a.split("@");
     let n = "";
-    m.length > 1 && (n = m[0] + "@", a = m[1]), a = a.replace(P, ".");
-    const r = a.split("."), p = G(r, i).join(".");
+    m.length > 1 && (n = m[0] + "@", a = m[1]), a = a.replace(R, ".");
+    const r = a.split("."), p = V(r, i).join(".");
     return n + p;
   }
-  function D(a) {
+  function S(a) {
     const i = [];
     let m = 0;
     const n = a.length;
@@ -41,16 +41,16 @@ function J() {
     }
     return i;
   }
-  const W = (a) => String.fromCodePoint(...a), U = function(a) {
+  const G = (a) => String.fromCodePoint(...a), W = function(a) {
     return a >= 48 && a < 58 ? 26 + (a - 48) : a >= 65 && a < 91 ? a - 65 : a >= 97 && a < 123 ? a - 97 : s;
-  }, T = function(a, i) {
+  }, D = function(a, i) {
     return a + 22 + 75 * (a < 26) - ((i != 0) << 5);
-  }, E = function(a, i, m) {
+  }, T = function(a, i, m) {
     let n = 0;
-    for (a = m ? h(a / d) : a >> 1, a += h(a / i); a > I * o >> 1; n += s)
-      a = h(a / I);
-    return h(n + (I + 1) * a / (a + t));
-  }, B = function(a) {
+    for (a = m ? h(a / d) : a >> 1, a += h(a / i); a > _ * o >> 1; n += s)
+      a = h(a / _);
+    return h(n + (_ + 1) * a / (a + t));
+  }, E = function(a) {
     const i = [], m = a.length;
     let n = 0, r = y, p = z, j = a.lastIndexOf(g);
     j < 0 && (j = 0);
@@ -60,7 +60,7 @@ function J() {
       const k = n;
       for (let l = 1, b = s; ; b += s) {
         u >= m && v("invalid-input");
-        const w = U(a.charCodeAt(u++));
+        const w = W(a.charCodeAt(u++));
         w >= s && v("invalid-input"), w > h((e - n) / l) && v("overflow"), n += w * l;
         const x = b <= p ? c : b >= p + o ? o : b - p;
         if (w < x)
@@ -69,16 +69,16 @@ function J() {
         l > h(e / q) && v("overflow"), l *= q;
       }
       const f = i.length + 1;
-      p = E(n - k, f, k == 0), h(n / f) > e - r && v("overflow"), r += h(n / f), n %= f, i.splice(n++, 0, r);
+      p = T(n - k, f, k == 0), h(n / f) > e - r && v("overflow"), r += h(n / f), n %= f, i.splice(n++, 0, r);
     }
     return String.fromCodePoint(...i);
-  }, M = function(a) {
+  }, B = function(a) {
     const i = [];
-    a = D(a);
+    a = S(a);
     const m = a.length;
     let n = y, r = 0, p = z;
     for (const k of a)
-      k < 128 && i.push(C(k));
+      k < 128 && i.push(I(k));
     const j = i.length;
     let u = j;
     for (j && i.push(g); u < m; ) {
@@ -94,18 +94,18 @@ function J() {
             const x = w <= p ? c : w >= p + o ? o : w - p;
             if (b < x)
               break;
-            const q = b - x, F = s - x;
+            const q = b - x, M = s - x;
             i.push(
-              C(T(x + q % F, 0))
-            ), b = h(q / F);
+              I(D(x + q % M, 0))
+            ), b = h(q / M);
           }
-          i.push(C(T(b, 0))), p = E(r, f, u === j), r = 0, ++u;
+          i.push(I(D(b, 0))), p = T(r, f, u === j), r = 0, ++u;
         }
       ++r, ++n;
     }
     return i.join("");
   };
-  return O = {
+  return C = {
     /**
      * A string representing the current Punycode.js version number.
      * @memberOf punycode
@@ -120,25 +120,25 @@ function J() {
      * @type Object
      */
     ucs2: {
-      decode: D,
-      encode: W
+      decode: S,
+      encode: G
     },
-    decode: B,
-    encode: M,
+    decode: E,
+    encode: B,
     toASCII: function(a) {
-      return S(a, function(i) {
-        return R.test(i) ? "xn--" + M(i) : i;
+      return L(a, function(i) {
+        return N.test(i) ? "xn--" + B(i) : i;
       });
     },
     toUnicode: function(a) {
-      return S(a, function(i) {
-        return N.test(i) ? B(i.slice(4).toLowerCase()) : i;
+      return L(a, function(i) {
+        return H.test(i) ? E(i.slice(4).toLowerCase()) : i;
       });
     }
-  }, O;
+  }, C;
 }
-var K = J();
-const A = /* @__PURE__ */ $(K), Q = [
+var J = $();
+const A = /* @__PURE__ */ U(J), K = [
   "ac",
   "com.ac",
   "edu.ac",
@@ -9915,9 +9915,7 @@ const A = /* @__PURE__ */ $(K), Q = [
   "basicserver.io",
   "virtualserver.io",
   "enterprisecloud.nu"
-];
-var _ = {};
-const X = Q.reduce(
+], Q = K.reduce(
   (e, s) => {
     const c = s.replace(/^(\*\.|\!)/, ""), o = A.toASCII(c), t = s.charAt(0);
     if (e.has(o))
@@ -9931,16 +9929,15 @@ const X = Q.reduce(
     }), e;
   },
   /* @__PURE__ */ new Map()
-);
-_.findRule = function(e) {
-  for (var s = A.toASCII(e), c = s.split("."), o = 0; o < c.length; o++) {
-    var t = c.slice(o).join("."), d = X.get(t);
+), X = (e) => {
+  const c = A.toASCII(e).split(".");
+  for (let o = 0; o < c.length; o++) {
+    const t = c.slice(o).join("."), d = Q.get(t);
     if (d)
       return d;
   }
   return null;
-};
-const Y = {
+}, Y = {
   DOMAIN_TOO_SHORT: "Domain name too short.",
   DOMAIN_TOO_LONG: "Domain name too long. It should be no more than 255 chars.",
   LABEL_STARTS_WITH_DASH: "Domain name label can not start with a dash.",
@@ -9948,14 +9945,15 @@ const Y = {
   LABEL_TOO_LONG: "Domain name label should be at most 63 chars long.",
   LABEL_TOO_SHORT: "Domain name label should be at least 1 character long.",
   LABEL_INVALID_CHARS: "Domain name label can only contain alphanumeric characters or dashes."
-};
-_.validate = function(e) {
-  var s = A.toASCII(e);
+}, Z = (e) => {
+  const s = A.toASCII(e);
   if (s.length < 1)
     return "DOMAIN_TOO_SHORT";
   if (s.length > 255)
     return "DOMAIN_TOO_LONG";
-  for (var c = s.split("."), o, t = 0; t < c.length; ++t) {
+  const c = s.split(".");
+  let o;
+  for (let t = 0; t < c.length; ++t) {
     if (o = c[t], !o.length)
       return "LABEL_TOO_SHORT";
     if (o.length > 63)
@@ -9967,13 +9965,12 @@ _.validate = function(e) {
     if (!/^[a-z0-9\-_]+$/.test(o))
       return "LABEL_INVALID_CHARS";
   }
-};
-const L = function(e) {
+}, O = (e) => {
   if (typeof e != "string")
     throw new TypeError("Domain name must be a string.");
-  var s = e.slice(0).toLowerCase();
+  let s = e.slice(0).toLowerCase();
   s.charAt(s.length - 1) === "." && (s = s.slice(0, s.length - 1));
-  var c = _.validate(s);
+  const c = Z(s);
   if (c)
     return {
       input: e,
@@ -9982,7 +9979,7 @@ const L = function(e) {
         code: c
       }
     };
-  var o = {
+  const o = {
     input: e,
     tld: null,
     sld: null,
@@ -9992,24 +9989,20 @@ const L = function(e) {
   }, t = s.split(".");
   if (t[t.length - 1] === "local")
     return o;
-  var d = function() {
-    return /xn--/.test(s) && (o.domain && (o.domain = A.toASCII(o.domain)), o.subdomain && (o.subdomain = A.toASCII(o.subdomain))), o;
-  }, z = _.findRule(s);
+  const d = () => (/xn--/.test(s) && (o.domain && (o.domain = A.toASCII(o.domain)), o.subdomain && (o.subdomain = A.toASCII(o.subdomain))), o), z = X(s);
   if (!z)
     return t.length < 2 ? o : (o.tld = t.pop(), o.sld = t.pop(), o.domain = [o.sld, o.tld].join("."), t.length && (o.subdomain = t.pop()), d());
   o.listed = !0;
-  var y = z.suffix.split("."), g = t.slice(0, t.length - y.length);
+  const y = z.suffix.split("."), g = t.slice(0, t.length - y.length);
   return z.exception && g.push(y.shift()), o.tld = y.join("."), !g.length || (z.wildcard && (y.unshift(g.pop()), o.tld = y.join(".")), !g.length) || (o.sld = g.pop(), o.domain = [o.sld, o.tld].join("."), g.length && (o.subdomain = g.join("."))), d();
-}, Z = function(e) {
-  return e && L(e).domain || null;
-}, aa = function(e) {
-  var s = L(e);
+}, aa = (e) => e && O(e).domain || null, oa = (e) => {
+  const s = O(e);
   return !!(s.domain && s.listed);
-}, ea = { parse: L, get: Z, isValid: aa };
+}, na = { parse: O, get: aa, isValid: oa };
 export {
-  ea as default,
+  na as default,
   Y as errorCodes,
-  Z as get,
-  aa as isValid,
-  L as parse
+  aa as get,
+  oa as isValid,
+  O as parse
 };
