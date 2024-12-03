@@ -1,19 +1,19 @@
-function U(e) {
+function $(e) {
   return e && e.__esModule && Object.prototype.hasOwnProperty.call(e, "default") ? e.default : e;
 }
 var C, F;
-function $() {
+function J() {
   if (F) return C;
   F = 1;
-  const e = 2147483647, s = 36, c = 1, o = 26, t = 38, d = 700, z = 72, y = 128, g = "-", H = /^xn--/, N = /[^\0-\x7F]/, R = /[\x2E\u3002\uFF0E\uFF61]/g, P = {
+  const e = 2147483647, s = 36, c = 1, o = 26, t = 38, d = 700, z = 72, y = 128, g = "-", N = /^xn--/, R = /[^\0-\x7F]/, P = /[\x2E\u3002\uFF0E\uFF61]/g, V = {
     overflow: "Overflow: input needs wider integers to process",
     "not-basic": "Illegal input >= 0x80 (not a basic code point)",
     "invalid-input": "Invalid input"
   }, _ = s - c, h = Math.floor, I = String.fromCharCode;
   function v(a) {
-    throw new RangeError(P[a]);
+    throw new RangeError(V[a]);
   }
-  function V(a, i) {
+  function G(a, i) {
     const m = [];
     let n = a.length;
     for (; n--; )
@@ -23,8 +23,8 @@ function $() {
   function L(a, i) {
     const m = a.split("@");
     let n = "";
-    m.length > 1 && (n = m[0] + "@", a = m[1]), a = a.replace(R, ".");
-    const r = a.split("."), p = V(r, i).join(".");
+    m.length > 1 && (n = m[0] + "@", a = m[1]), a = a.replace(P, ".");
+    const r = a.split("."), p = G(r, i).join(".");
     return n + p;
   }
   function S(a) {
@@ -41,7 +41,7 @@ function $() {
     }
     return i;
   }
-  const G = (a) => String.fromCodePoint(...a), W = function(a) {
+  const W = (a) => String.fromCodePoint(...a), U = function(a) {
     return a >= 48 && a < 58 ? 26 + (a - 48) : a >= 65 && a < 91 ? a - 65 : a >= 97 && a < 123 ? a - 97 : s;
   }, D = function(a, i) {
     return a + 22 + 75 * (a < 26) - ((i != 0) << 5);
@@ -60,7 +60,7 @@ function $() {
       const k = n;
       for (let l = 1, b = s; ; b += s) {
         u >= m && v("invalid-input");
-        const w = W(a.charCodeAt(u++));
+        const w = U(a.charCodeAt(u++));
         w >= s && v("invalid-input"), w > h((e - n) / l) && v("overflow"), n += w * l;
         const x = b <= p ? c : b >= p + o ? o : b - p;
         if (w < x)
@@ -121,24 +121,24 @@ function $() {
      */
     ucs2: {
       decode: S,
-      encode: G
+      encode: W
     },
     decode: E,
     encode: B,
     toASCII: function(a) {
       return L(a, function(i) {
-        return N.test(i) ? "xn--" + B(i) : i;
+        return R.test(i) ? "xn--" + B(i) : i;
       });
     },
     toUnicode: function(a) {
       return L(a, function(i) {
-        return H.test(i) ? E(i.slice(4).toLowerCase()) : i;
+        return N.test(i) ? E(i.slice(4).toLowerCase()) : i;
       });
     }
   }, C;
 }
-var J = $();
-const A = /* @__PURE__ */ U(J), K = [
+var K = J();
+const A = /* @__PURE__ */ $(K), H = [
   "ac",
   "com.ac",
   "edu.ac",
@@ -9915,7 +9915,7 @@ const A = /* @__PURE__ */ U(J), K = [
   "basicserver.io",
   "virtualserver.io",
   "enterprisecloud.nu"
-], Q = K.reduce(
+], Q = H.reduce(
   (e, s) => {
     const c = s.replace(/^(\*\.|\!)/, ""), o = A.toASCII(c), t = s.charAt(0);
     if (e.has(o))
@@ -9998,11 +9998,12 @@ const A = /* @__PURE__ */ U(J), K = [
 }, aa = (e) => e && O(e).domain || null, oa = (e) => {
   const s = O(e);
   return !!(s.domain && s.listed);
-}, na = { parse: O, get: aa, isValid: oa };
+}, na = { parse: O, get: aa, isValid: oa, rules: H };
 export {
   na as default,
   Y as errorCodes,
   aa as get,
   oa as isValid,
-  O as parse
+  O as parse,
+  H as rules
 };

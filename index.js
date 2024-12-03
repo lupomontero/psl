@@ -244,4 +244,9 @@ export const isValid = (domain) => {
   return Boolean(parsed.domain && parsed.listed);
 };
 
-export default { parse, get, isValid };
+//
+// List of rules from known public suffixes.
+//
+export { default as rules } from './data/rules.js';
+
+export default { parse, get, isValid, rules };
