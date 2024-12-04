@@ -7,6 +7,7 @@ import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+const END_ICANN_REGION = '// ===END ICANN DOMAINS===';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 //
@@ -14,6 +15,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 //
 const src = 'https://publicsuffix.org/list/effective_tld_names.dat';
 const dest = path.join(__dirname, '../data/rules.js');
+
+global.inIcannRegion = true;
 
 //
 // Parse line (trim and ignore empty lines and comments).
@@ -23,12 +26,15 @@ const parseLine = (line) => {
 
   // Ignore empty lines and comments.
   if (!trimmed || (trimmed.charAt(0) === '/' && trimmed.charAt(1) === '/')) {
+    if (trimmed === END_ICANN_REGION) {
+      global.inIcannRegion = false;
+    }
     return;
   }
 
   // Only read up to first whitespace char.
   const rule = trimmed.split(' ')[0];
-  return rule;
+  return [rule, (global.inIcannRegion) ? true : false];
 
   // const item = [rule];
   //
