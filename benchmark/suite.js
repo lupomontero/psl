@@ -44,7 +44,7 @@ const runSuites = (suites) => {
   return recurse(suites, [])
 };
 
-const printResults = (results, compareToVersion) => {
+const printResults = (results, versionToCompare) => {
   const parsedResults = results.map(result => ({
     version: result.version,
     name: result.name,
@@ -75,7 +75,7 @@ const printResults = (results, compareToVersion) => {
   const resultsByFuncSummary = Object.keys(resultsByFunc).reduce(
     (memo, name) => {
       const sourceOpsXSec = parseInt(resultsByFunc[name].source, 10);
-      const compareToOpsXSec = parseInt(resultsByFunc[name][compareToVersion], 10);
+      const compareToOpsXSec = parseInt(resultsByFunc[name][versionToCompare], 10);
       const diff = (
         sourceOpsXSec > compareToOpsXSec
           ? `${(sourceOpsXSec / compareToOpsXSec).toFixed(2)}x up`
@@ -109,16 +109,32 @@ const fetchModule = async (version) => {
   return mod.namespace;
 };
 
-const main = async (compareToVersion = 'latest') => {
-  const results = await runSuites([
-    { module: psl, version: 'source' },
-    { module: await fetchModule(compareToVersion), version: compareToVersion },
-  ]);
+const sanitiseVersion = (version = 'latest') => {
+  const semverRegExp = new RegExp([
+    '^v(0|[1-9]\\d*)',
+    '\\.(0|[1-9]\\d*)',
+    '\\.(0|[1-9]\\d*|x)',
+    '(?:[-]?[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$'
+   ].join(''));
 
-  printResults(results, compareToVersion);
+  if (version !== 'latest' && !semverRegExp.test(version)) {
+    throw new Error(`Unknown version argument: ${version}`);
+  }
+
+  return version;
 };
 
-main(process.argv[2]).catch((error) => {
+const main = async () => {
+  const versionToCompare = sanitiseVersion(process.argv[2]);
+  const results = await runSuites([
+    { module: psl, version: 'source' },
+    { module: await fetchModule(versionToCompare), version: versionToCompare },
+  ]);
+
+  printResults(results, versionToCompare);
+};
+
+main().catch((error) => {
   console.error(error);
   process.exit(1);
 });
