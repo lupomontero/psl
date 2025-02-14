@@ -1,29 +1,31 @@
 import punycode from 'punycode/punycode.js';
 import rules from './data/rules.js';
 
+const _addRule = (map, rule, replace) => {
+  const suffix = rule.replace(/^(\*\.|\!)/, '');
+  const punySuffix = punycode.toASCII(suffix);
+  const firstChar = rule.charAt(0);
+
+  if (!replace && map.has(punySuffix)) {
+    throw new Error(`Multiple rules found for ${rule} (${punySuffix})`);
+  }
+
+  map.set(punySuffix, {
+    rule,
+    suffix,
+    punySuffix,
+    wildcard: firstChar === '*',
+    exception: firstChar === '!'
+  });
+
+  return map;
+}
+
 //
 // Parse rules from file.
 //
 const rulesByPunySuffix = rules.reduce(
-  (map, rule) => {
-    const suffix = rule.replace(/^(\*\.|\!)/, '');
-    const punySuffix = punycode.toASCII(suffix);
-    const firstChar = rule.charAt(0);
-
-    if (map.has(punySuffix)) {
-      throw new Error(`Multiple rules found for ${rule} (${punySuffix})`);
-    }
-
-    map.set(punySuffix, {
-      rule,
-      suffix,
-      punySuffix,
-      wildcard: firstChar === '*',
-      exception: firstChar === '!'
-    });
-
-    return map;
-  },
+  (map, rule) => _addRule(map, rule, false),
   new Map(),
 );
 
@@ -244,9 +246,18 @@ export const isValid = (domain) => {
   return Boolean(parsed.domain && parsed.listed);
 };
 
-//
+
+/**
+ * Adds a rule to the collection.
+ */
+export const addRule = (rule, replace) => {
+  _addRule(rulesByPunySuffix, rule, replace);
+  return true
+}
+
+
 // List of rules from known public suffixes.
 //
 export { default as rules } from './data/rules.js';
 
-export default { parse, get, isValid, rules };
+export default { parse, get, isValid, rules, addRule };

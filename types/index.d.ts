@@ -55,3 +55,8 @@ export function isValid(domain: string): boolean;
  * An array of TLDs used to parse domains.
  */
 export const rules: string[];
+
+/**
+ * Adds a rule to the collection.
+ */
+export function addRule(rule: string, replace?: boolean): boolean;

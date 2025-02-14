@@ -6,5 +6,6 @@ describe('psl', () => {
     assert.equal(typeof psl.parse, 'function');
     assert.equal(typeof psl.get, 'function');
     assert.equal(typeof psl.isValid, 'function');
+    assert.equal(typeof psl.addRule, 'function');
   });
 });
