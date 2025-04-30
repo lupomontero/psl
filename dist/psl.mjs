@@ -9973,6 +9973,7 @@ const A = /* @__PURE__ */ $(K), H = [
   const c = Z(s);
   if (c)
     return {
+      success: !1,
       input: e,
       error: {
         message: Y[c],
@@ -9980,6 +9981,7 @@ const A = /* @__PURE__ */ $(K), H = [
       }
     };
   const o = {
+    success: !0,
     input: e,
     tld: null,
     sld: null,
