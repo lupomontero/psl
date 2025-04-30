@@ -4,6 +4,7 @@
  * Result returned when a given domain name was not parsable (not exported)
  */
 export type ErrorResult<T extends keyof errorCodes> = {
+  success: false;
   input: string;
   error: {
     code: T;
@@ -28,6 +29,7 @@ export const enum errorCodes {
 export as namespace psl;
 
 export type ParsedDomain = {
+  success: true;
   input: string;
   tld: string | null;
   sld: string | null;

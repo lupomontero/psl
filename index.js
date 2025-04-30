@@ -137,6 +137,7 @@ export const parse = (input) => {
   const error = validate(domain);
   if (error) {
     return {
+      success: false,
       input: input,
       error: {
         message: errorCodes[error],
@@ -146,6 +147,7 @@ export const parse = (input) => {
   }
 
   const parsed = {
+    success: true,
     input: input,
     tld: null,
     sld: null,
