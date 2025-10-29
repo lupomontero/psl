@@ -55,6 +55,23 @@ jobs:
       - run: npm i
       - run: npm test
 
+  test_node_es5:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [4, 6]
+    defaults:
+      run:
+        working-directory: ./test/node-es5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+      - run: npm i
+      - run: npm test
+
   test_browser:
     runs-on: ubuntu-latest
     steps:

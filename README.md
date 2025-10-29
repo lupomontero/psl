@@ -34,8 +34,8 @@ details.
 
 ### Node.js
 
-This module is tested on Node.js v8, v10, v12, v14, v16, v18, v20 and v22. See
-[`.github/workflows/node.js.yml`](.github/workflows/node.js.yml).
+This module is tested on Node.js v4, v6, v8, v10, v12, v14, v16, v18, v20 and
+v22. See [`.github/workflows/node.js.yml`](.github/workflows/node.js.yml).
 
 ```sh
 npm install psl
@@ -56,6 +56,18 @@ in previous versions.
 
 ```js
 const psl = require('psl');
+```
+
+#### ES5 Support (Node versions 4 & 6)
+
+For Node.js versions 4 and 6, a transpiled ES5 compatible build is available at
+`dist/psl.es5.cjs`. This build includes all necessary polyfills for those
+versions.
+
+To use the ES5 build:
+
+```js
+const psl = require('psl/dist/psl.es5.cjs');
 ```
 
 ### Browser
