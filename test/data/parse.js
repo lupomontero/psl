@@ -102,12 +102,12 @@ export default [
     },
   },
   {
-    value: 'foo.blogspot.co.uk',
+    value: 'foo.blogspot.com',
     expected: {
-      input: 'foo.blogspot.co.uk',
-      tld: 'blogspot.co.uk',
+      input: 'foo.blogspot.com',
+      tld: 'blogspot.com',
       sld: 'foo',
-      domain: 'foo.blogspot.co.uk',
+      domain: 'foo.blogspot.com',
       subdomain: null,
       listed: true,
     },
