@@ -89,7 +89,7 @@ const validate = (input) => {
   }
 
   // Check each part's length and allowed chars.
-  const labels = ascii.split('.');
+  const labels = handleFQDN(ascii);
   let label;
 
   for (let i = 0; i < labels.length; ++i) {
@@ -106,7 +106,7 @@ const validate = (input) => {
     if (label.charAt(label.length - 1) === '-') {
       return 'LABEL_ENDS_WITH_DASH';
     }
-    if (!/^[a-z0-9\-_]+$/.test(label)) {
+    if (!/^[a-z0-9._-]+$/.test(label)) {
       return 'LABEL_INVALID_CHARS';
     }
   }
@@ -126,12 +126,6 @@ export const parse = (input) => {
 
   // Force domain to lowercase.
   let domain = input.slice(0).toLowerCase();
-
-  // Handle FQDN.
-  // TODO: Simply remove trailing dot?
-  if (domain.charAt(domain.length - 1) === '.') {
-    domain = domain.slice(0, domain.length - 1);
-  }
 
   // Validate and sanitise input.
   const error = validate(domain);
@@ -154,7 +148,7 @@ export const parse = (input) => {
     listed: false
   };
 
-  const domainParts = domain.split('.');
+  const domainParts = handleFQDN(domain);
 
   // Non-Internet TLD
   if (domainParts[domainParts.length - 1] === 'local') {
@@ -242,6 +236,22 @@ export const get = (domain) => {
 export const isValid = (domain) => {
   const parsed = parse(domain);
   return Boolean(parsed.domain && parsed.listed);
+};
+
+//
+// Handle domains that include a trailing dot (FQDNs).
+//
+const handleFQDN = (domain) => {
+  const splitDomain = domain.split('.');
+
+  if (domain.charAt(domain.length-1) !== '.') {
+    return splitDomain;
+  }
+
+  splitDomain.pop();
+  splitDomain[splitDomain.length-1] = splitDomain[splitDomain.length-1].concat('','.');
+
+  return splitDomain;
 };
 
 //

@@ -139,11 +139,11 @@ export default [
     value: 'www.google.com.',
     expected: {
       input: 'www.google.com.',
-      tld: 'com',
+      tld: 'com.',
       sld: 'google',
-      domain: 'google.com',
+      domain: 'google.com.',
       subdomain: 'www',
-      listed: true,
+      listed: false,
     },
   },
   {
