@@ -37,7 +37,7 @@ const findRule = (domain) => {
   for (let i = 0; i < punyDomainChunks.length; i++) {
     const suffix = punyDomainChunks.slice(i).join('.');
     const matchingRules = rulesByPunySuffix.get(suffix);
-    if (matchingRules) {
+    if (matchingRules && !(matchingRules.wildcard && i === 0)) {
       return matchingRules;
     }
   }

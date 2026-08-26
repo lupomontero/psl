@@ -106,4 +106,11 @@ checkPublicSuffix('xn--fiqs8s', null);
 // https://github.com/lupomontero/psl/pull/46
 checkPublicSuffix('_jabber._tcp.gmail.com', 'gmail.com');
 
+// A wildcard rule's bare base has fewer labels than the rule, so the
+// wildcard cannot match it; the base falls through to the next rule and
+// is a registrable domain, not a public suffix.
+checkPublicSuffix('kobe.jp', 'kobe.jp');
+checkPublicSuffix('sch.uk', 'sch.uk');
+checkPublicSuffix('run.app', 'run.app');
+
 export default testData;
